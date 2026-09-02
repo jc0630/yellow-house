@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { useLanguage } from "../lib/LanguageContext";
 import { motion } from "motion/react";
 import { NEWS_DATA } from "../data/newsData";
+import { ArrowChip } from "../components/ArrowChip";
 
 export function News() {
   const { t, lang } = useLanguage();
@@ -156,11 +157,9 @@ export function News() {
                         {excerpt}
                       </p>
 
-                      <div className="inline-flex items-center gap-2 font-label-caps text-xs text-primary mt-2 uppercase tracking-wider group-hover:text-[#FFA601] transition-colors self-start font-medium">
+                      <div className="inline-flex items-center gap-3 font-label-caps text-xs text-primary mt-2 uppercase tracking-wider group-hover:text-[#FFA601] transition-colors self-start font-medium">
                         <span>{t("news.read_more")}</span>
-                        <span className="material-symbols-outlined text-xs transform group-hover:translate-x-1 transition-transform">
-                          arrow_forward
-                        </span>
+                        <ArrowChip className="w-6 h-6" />
                       </div>
                     </div>
                   </Link>
@@ -178,10 +177,10 @@ export function News() {
         </h2>
         <Link
           href="/contact"
-          className="px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-2"
+          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cta.button")}</span>
-          <span className="material-symbols-outlined text-xs">arrow_forward</span>
+          <ArrowChip className="w-6 h-6" />
         </Link>
       </section>
     </div>

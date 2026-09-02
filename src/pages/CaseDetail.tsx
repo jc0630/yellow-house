@@ -3,6 +3,7 @@ import { Link, useRoute } from "wouter";
 import { motion } from "motion/react";
 import { useLanguage } from "../lib/LanguageContext";
 import { CASES_DATA } from "../data/casesData";
+import { ArrowChip } from "../components/ArrowChip";
 
 export function CaseDetail() {
   const [, params] = useRoute<{ slug: string }>("/cases/:slug");
@@ -203,10 +204,10 @@ export function CaseDetail() {
         </h2>
         <Link
           href="/contact"
-          className="px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-2"
+          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cta.button")}</span>
-          <span className="material-symbols-outlined text-xs">arrow_forward</span>
+          <ArrowChip className="w-6 h-6" />
         </Link>
       </section>
     </div>

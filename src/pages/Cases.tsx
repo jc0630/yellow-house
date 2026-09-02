@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { useLanguage } from "../lib/LanguageContext";
 import { motion } from "motion/react";
 import { CASES_DATA } from "../data/casesData";
+import { ArrowChip } from "../components/ArrowChip";
 
 export function Cases() {
   const { t, lang } = useLanguage();
@@ -171,9 +172,7 @@ export function Cases() {
                       {/* Read More link */}
                       <div className="pt-4 border-t border-outline-variant flex items-center justify-between text-xs font-label-caps text-primary group-hover:text-[#FFA601] uppercase tracking-wider">
                         <span>{lang === "zh" ? "查看專案詳情" : "VIEW CASE DETAILS"}</span>
-                        <span className="material-symbols-outlined text-sm transform group-hover:translate-x-1 transition-transform">
-                          arrow_forward
-                        </span>
+                        <ArrowChip className="w-6 h-6" />
                       </div>
                     </div>
                   </Link>
@@ -239,10 +238,10 @@ export function Cases() {
         </h2>
         <Link
           href="/contact"
-          className="px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-2"
+          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cases.cta.btn")}</span>
-          <span className="material-symbols-outlined text-xs">arrow_forward</span>
+          <ArrowChip className="w-6 h-6" />
         </Link>
       </section>
     </div>

@@ -2,6 +2,7 @@ import { Route, Switch, useLocation } from "wouter";
 import { useEffect } from "react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import { BackToTop } from "./components/BackToTop";
 import { Home } from "./pages/Home";
 import { Services } from "./pages/Services";
 import { Company } from "./pages/Company";
@@ -47,6 +48,7 @@ export default function App() {
           </Switch>
         </main>
         <Footer />
+        <BackToTop />
       </div>
     </LanguageProvider>
   );

@@ -3,6 +3,7 @@ import { Link, useRoute } from "wouter";
 import { motion } from "motion/react";
 import { useLanguage } from "../lib/LanguageContext";
 import { NEWS_DATA } from "../data/newsData";
+import { ArrowChip } from "../components/ArrowChip";
 
 export function NewsDetail() {
   const [, params] = useRoute<{ slug: string }>("/news/:slug");
@@ -182,10 +183,10 @@ export function NewsDetail() {
         </h2>
         <Link
           href="/contact"
-          className="px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-2"
+          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cta.button")}</span>
-          <span className="material-symbols-outlined text-xs">arrow_forward</span>
+          <ArrowChip className="w-6 h-6" />
         </Link>
       </section>
     </div>

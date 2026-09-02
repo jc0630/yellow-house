@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "../lib/LanguageContext";
 import { motion } from "motion/react";
+import { ArrowChip } from "../components/ArrowChip";
+import { SectionWatermark } from "../components/SectionWatermark";
 
 export function Home() {
   const { t, lang } = useLanguage();
@@ -33,9 +35,9 @@ export function Home() {
             <Link href="/contact" className="border border-primary px-8 py-4 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">
               {t("home.hero.consult")}
             </Link>
-            <Link href="/services" className="border border-transparent px-8 py-4 font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest flex items-center gap-2">
+            <Link href="/services" className="group border border-transparent px-8 py-4 font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest flex items-center gap-3">
               {t("home.hero.view_properties")}
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              <ArrowChip />
             </Link>
           </div>
         </div>
@@ -89,13 +91,14 @@ export function Home() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#FFA601] pb-6 gap-4"
+          className="relative overflow-hidden flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#FFA601] pb-6 gap-4"
         >
-          <div>
+          <SectionWatermark text="BUSINESS" />
+          <div className="relative z-10">
             <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">{t("home.services.tag")}</span>
             <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mt-2">{t("home.services.title")}</h2>
           </div>
-          <p className="font-body-md text-on-surface-variant max-w-md">
+          <p className="relative z-10 font-body-md text-on-surface-variant max-w-md">
             {t("home.services.desc")}
           </p>
         </motion.div>
@@ -147,8 +150,8 @@ export function Home() {
                   </li>
                 </ul>
               </div>
-              <Link href="/services" className="font-label-caps text-xs text-primary hover:text-[#FFA601] uppercase tracking-wider flex items-center gap-1 mt-4 group">
-                {lang === "zh" ? "查看服務說明" : "LEARN MORE"} <span className="material-symbols-outlined text-xs transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              <Link href="/services" className="font-label-caps text-xs text-primary hover:text-[#FFA601] uppercase tracking-wider flex items-center gap-2 mt-4 group">
+                {lang === "zh" ? "查看服務說明" : "LEARN MORE"} <ArrowChip className="w-6 h-6" />
               </Link>
             </motion.div>
           ))}
@@ -185,13 +188,14 @@ export function Home() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#FFA601] pb-6 gap-4"
+          className="relative overflow-hidden flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#FFA601] pb-6 gap-4"
         >
-          <div>
+          <SectionWatermark text="PERSPECTIVE" />
+          <div className="relative z-10">
             <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">{t("home.perspective.tag")}</span>
             <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mt-2">{t("home.perspective.title")}</h2>
           </div>
-          <p className="font-body-md text-on-surface-variant max-w-lg">
+          <p className="relative z-10 font-body-md text-on-surface-variant max-w-lg">
             {t("home.perspective.desc")}
           </p>
         </motion.div>
@@ -267,13 +271,14 @@ export function Home() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#FFA601] pb-6 gap-4"
+          className="relative overflow-hidden flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#FFA601] pb-6 gap-4"
         >
-          <div>
+          <SectionWatermark text="PROCESS" />
+          <div className="relative z-10">
             <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">{t("home.process.tag")}</span>
             <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mt-2">{t("home.process.title")}</h2>
           </div>
-          <p className="font-body-md text-on-surface-variant max-w-md">
+          <p className="relative z-10 font-body-md text-on-surface-variant max-w-md">
             {t("home.process.desc")}
           </p>
         </motion.div>
@@ -324,8 +329,8 @@ export function Home() {
           viewport={{ once: true }}
           className="mt-16 flex justify-center"
         >
-          <Link href="/services" className="font-label-caps text-label-caps text-primary flex items-center gap-2 uppercase hover:text-[#FFA601] transition-colors border-b border-primary pb-1 group">
-            {t("home.process.cta")} <span className="material-symbols-outlined text-sm transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          <Link href="/services" className="font-label-caps text-label-caps text-primary flex items-center gap-3 uppercase hover:text-[#FFA601] transition-colors border-b border-primary pb-1 group">
+            {t("home.process.cta")} <ArrowChip className="w-6 h-6" />
           </Link>
         </motion.div>
       </section>

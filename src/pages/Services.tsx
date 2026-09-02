@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "../lib/LanguageContext";
 import { motion } from "motion/react";
+import { ArrowChip } from "../components/ArrowChip";
 
 export function Services() {
   const { t, lang } = useLanguage();
@@ -418,12 +419,12 @@ export function Services() {
         <h2 className="font-headline-lg text-primary text-2xl md:text-3xl font-medium">
           {t("services.cta.title")}
         </h2>
-        <Link 
-          href="/contact" 
-          className="px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-2"
+        <Link
+          href="/contact"
+          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("services.cta.btn")}</span>
-          <span className="material-symbols-outlined text-xs">arrow_forward</span>
+          <ArrowChip className="w-6 h-6" />
         </Link>
       </section>
     </div>
