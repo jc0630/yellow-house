@@ -317,7 +317,16 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.info.phone_val": "-",
     "contact.info.hours_label": "營業時間",
     "contact.info.hours_val": "週一至週五 09:00 - 18:00 (JST)\n週末與日本國定假日可預約線上諮詢",
-    "contact.quote": "「從取得、持有、管理、開發、營運到出售，以實際經驗協助客戶做出更完整的判斷。」"
+    "contact.quote": "「從取得、持有、管理、開發、營運到出售，以實際經驗協助客戶做出更完整的判斷。」",
+
+    // Currency
+    "currency.label": "貨幣",
+    "currency.updated": "匯率更新時間",
+    "currency.updated_cached": "匯率更新時間（離線快取）",
+    "currency.unavailable": "匯率暫時無法取得，僅顯示日圓價格",
+    "currency.approx": "約",
+    "currency.disclaimer": "美元金額為依最新可取得匯率換算之參考值，實際金額可能因匯率變動而異。",
+    "price.label": "物件價格"
   },
   en: {
     // Nav
@@ -650,7 +659,16 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.info.contact_val": "contact@yellowhouse.jp",
     "contact.info.hours_label": "OFFICE HOURS",
     "contact.info.hours_val": "Mon - Fri 09:00 - 18:00 (JST)\nOnline consultations available on weekends by appointment",
-    "contact.quote": "“From acquisition, holding, management, development, and operations to resale, our hands-on experience empowers you to make informed decisions.”"
+    "contact.quote": "“From acquisition, holding, management, development, and operations to resale, our hands-on experience empowers you to make informed decisions.”",
+
+    // Currency
+    "currency.label": "Currency",
+    "currency.updated": "Exchange rate updated",
+    "currency.updated_cached": "Exchange rate updated (cached offline)",
+    "currency.unavailable": "Exchange rate temporarily unavailable — showing JPY only",
+    "currency.approx": "Approx.",
+    "currency.disclaimer": "USD amounts are approximate conversions based on the latest available exchange rate and may vary with market fluctuations.",
+    "price.label": "PROPERTY PRICE"
   }
 };
 

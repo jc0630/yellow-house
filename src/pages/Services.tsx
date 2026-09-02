@@ -167,54 +167,105 @@ export function Services() {
             img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=85",
             icon: "hotel"
           }
-        ].map((svc) => (
-          <section key={svc.id} className="w-full py-16 md:py-24 px-margin-mobile md:px-margin-desktop border-b border-outline-variant/50">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-              <motion.div 
-                initial={{ opacity: 0, x: svc.reverse ? 20 : -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+        ].map((svc, idx) => {
+          if (svc.id === 4) {
+            // Final business line gets a full-bleed image + text-overlay treatment for visual rhythm
+            return (
+              <motion.section
+                key={svc.id}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className={`md:col-span-5 flex flex-col justify-center ${svc.reverse ? 'md:col-start-8 order-2 md:order-2' : 'order-2 md:order-1'}`}
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-full border border-[#FFA601] flex items-center justify-center bg-[#FFA601]/10 text-[#FFA601]">
-                    <span className="material-symbols-outlined text-2xl">{svc.icon}</span>
-                  </div>
-                  <h2 className="font-numeral-display text-[#FFA601] text-3xl">{t(svc.num)}</h2>
-                </div>
-                <h3 className="font-headline-lg text-primary mb-4">{t(svc.title)}</h3>
-                <p className="font-body-md text-on-surface-variant leading-relaxed mb-8">{t(svc.desc)}</p>
-                <ul className="flex flex-col gap-4">
-                  {svc.items.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="material-symbols-outlined text-[#FFA601] text-xl shrink-0 mt-0.5">check_circle</span>
-                      <span className="font-body-md text-primary">{t(item)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className={`md:col-span-6 h-[380px] md:h-[480px] relative group overflow-hidden shadow-md border border-outline-variant ${svc.reverse ? 'md:col-start-1 order-1 md:order-1' : 'md:col-start-7 order-1 md:order-2'}`}
+                className="w-full relative min-h-[480px] md:min-h-[560px] flex items-end overflow-hidden border-b border-outline-variant/50"
               >
                 <div
-                  className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  className="absolute inset-0 bg-cover bg-center scale-105"
                   style={{ backgroundImage: `url('${svc.img}')` }}
                 ></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-              </motion.div>
-            </div>
-          </section>
-        ))}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10"></div>
+                <div className="relative z-10 w-full px-margin-mobile md:px-margin-desktop py-12 md:py-16">
+                  <div className="max-w-2xl flex flex-col gap-5">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full border border-[#FFA601] flex items-center justify-center bg-[#FFA601]/20 text-[#FFA601]">
+                        <span className="material-symbols-outlined text-2xl">{svc.icon}</span>
+                      </div>
+                      <h2 className="font-numeral-display text-[#FFA601] text-3xl">{t(svc.num)}</h2>
+                    </div>
+                    <h3 className="font-headline-lg text-white">{t(svc.title)}</h3>
+                    <p className="font-body-lg text-white/85 leading-relaxed">{t(svc.desc)}</p>
+                    <ul className="flex flex-wrap gap-3 mt-2">
+                      {svc.items.map((item, i) => (
+                        <li
+                          key={i}
+                          className="rounded-full px-4 py-2 bg-white/10 border border-white/25 backdrop-blur-sm text-white text-xs font-label-caps tracking-wide flex items-center gap-2"
+                        >
+                          <span className="material-symbols-outlined text-[#FFA601] text-sm">check_circle</span>
+                          {t(item)}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </motion.section>
+            );
+          }
+
+          const tinted = idx % 2 === 1;
+          return (
+            <section
+              key={svc.id}
+              className={`w-full py-16 md:py-24 px-margin-mobile md:px-margin-desktop border-b border-outline-variant/50 ${
+                tinted ? "bg-brand-tint" : ""
+              }`}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                <motion.div
+                  initial={{ opacity: 0, x: svc.reverse ? 20 : -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className={`md:col-span-5 flex flex-col justify-center ${svc.reverse ? 'md:col-start-8 order-2 md:order-2' : 'order-2 md:order-1'}`}
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-full border border-[#FFA601] flex items-center justify-center bg-[#FFA601]/10 text-[#FFA601]">
+                      <span className="material-symbols-outlined text-2xl">{svc.icon}</span>
+                    </div>
+                    <h2 className="font-numeral-display text-[#FFA601] text-3xl">{t(svc.num)}</h2>
+                  </div>
+                  <h3 className="font-headline-lg text-primary mb-4">{t(svc.title)}</h3>
+                  <p className="font-body-md text-on-surface-variant leading-relaxed mb-8">{t(svc.desc)}</p>
+                  <ul className="flex flex-col gap-4">
+                    {svc.items.map((item, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="material-symbols-outlined text-[#FFA601] text-xl shrink-0 mt-0.5">check_circle</span>
+                        <span className="font-body-md text-primary">{t(item)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className={`rounded-xl md:col-span-6 ${idx % 2 === 0 ? "h-[420px] md:h-[520px]" : "h-[340px] md:h-[420px]"} relative group overflow-hidden shadow-md border border-outline-variant ${svc.reverse ? 'md:col-start-1 order-1 md:order-1' : 'md:col-start-7 order-1 md:order-2'}`}
+                >
+                  <div
+                    className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    style={{ backgroundImage: `url('${svc.img}')` }}
+                  ></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                </motion.div>
+              </div>
+            </section>
+          );
+        })}
       </div>
 
       {/* SERVICE FLOW / 交易服務流程 (REDESIGNED: ICON + STEP NUMBER + TITLE + DESCRIPTION) */}
-      <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap bg-surface-container-low border-b border-outline-variant">
-        <motion.div 
+      <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap bg-brand-tint border-b border-outline-variant">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -251,7 +302,7 @@ export function Services() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className="p-8 border border-outline-variant bg-surface flex flex-col justify-between hover:border-[#FFA601] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative group"
+              className="rounded-xl p-8 border border-outline-variant bg-surface flex flex-col justify-between hover:border-[#FFA601] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative group"
             >
               {/* Step indicator and Icon */}
               <div>
@@ -364,12 +415,12 @@ export function Services() {
 
       {/* LEASING & PROPERTY MANAGEMENT */}
       <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
-          <motion.div 
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-stretch">
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-surface-container-lowest p-8 md:p-12 flex flex-col justify-between border border-outline-variant shadow-sm relative overflow-hidden group"
+            className="md:col-span-2 rounded-xl bg-surface-container-lowest p-8 md:p-12 flex flex-col justify-between border border-outline-variant shadow-sm relative overflow-hidden group"
           >
             <div className="relative z-10">
               <div className="w-12 h-12 border border-[#FFA601] rounded-full flex items-center justify-center bg-[#FFA601]/10 text-[#FFA601] mb-8">
@@ -405,7 +456,7 @@ export function Services() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="h-full min-h-[400px] md:min-h-[500px] w-full bg-cover bg-center shadow-md border border-outline-variant group overflow-hidden"
+            className="md:col-span-3 rounded-xl h-full min-h-[400px] md:min-h-[500px] w-full bg-cover bg-center shadow-md border border-outline-variant group overflow-hidden"
             style={{
               backgroundImage:
                 "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85')",
@@ -421,7 +472,7 @@ export function Services() {
         </h2>
         <Link
           href="/contact"
-          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
+          className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("services.cta.btn")}</span>
           <ArrowChip className="w-6 h-6" />

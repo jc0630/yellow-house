@@ -53,7 +53,7 @@ export function Footer() {
           </div>
           <div className="md:col-span-4 flex flex-col gap-4">
             <h4 className="font-label-caps text-tertiary-fixed-dim mb-2">{t("footer.location")}</h4>
-            <Link href="/contact" className="w-full h-40 bg-on-surface-variant/20 overflow-hidden relative group block border border-white/10 hover:border-[#FFA601] transition-all">
+            <Link href="/contact" className="rounded-xl w-full h-40 bg-on-surface-variant/20 overflow-hidden relative group block border border-white/10 hover:border-[#FFA601] transition-all">
               <div
                 className="w-full h-full bg-cover bg-center grayscale contrast-125 opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                 style={{
@@ -62,7 +62,7 @@ export function Footer() {
                 }}
               ></div>
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-4 text-center">
-                <span className="text-white text-xs font-label-caps tracking-widest uppercase bg-black/60 px-3 py-1.5 border border-white/20">
+                <span className="rounded-md text-white text-xs font-label-caps tracking-widest uppercase bg-black/60 px-3 py-1.5 border border-white/20">
                   {t("footer.map_label")}
                 </span>
               </div>

@@ -4,6 +4,8 @@ import { useLanguage } from "../lib/LanguageContext";
 import { motion } from "motion/react";
 import { CASES_DATA } from "../data/casesData";
 import { ArrowChip } from "../components/ArrowChip";
+import { CurrencySelector } from "../components/CurrencySelector";
+import { PriceBlock } from "../components/PriceBlock";
 
 export function Cases() {
   const { t, lang } = useLanguage();
@@ -84,28 +86,68 @@ export function Cases() {
         </div>
       </section>
 
+      {/* FEATURED CASE — asymmetric image + brand-dark text panel */}
+      <section className="w-full bg-primary text-white overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-12 items-stretch">
+          <div className="md:col-span-7 h-[280px] md:h-[520px] relative overflow-hidden group order-1">
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url('${CASES_DATA[0].image}')` }}
+            ></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/40 md:hidden"></div>
+          </div>
+          <div className="md:col-span-5 flex flex-col justify-center gap-5 p-8 md:p-14 order-2">
+            <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest flex items-center gap-2">
+              <span className="w-6 h-[2px] bg-[#FFA601] inline-block"></span>
+              {lang === "zh" ? "焦點案例" : "FEATURED CASE"}
+            </span>
+            <h2 className="font-headline-lg text-white leading-tight">
+              {lang === "zh" ? CASES_DATA[0].titleZh : CASES_DATA[0].titleEn}
+            </h2>
+            <p className="font-body-md text-white/75 leading-relaxed">
+              {lang === "zh" ? CASES_DATA[0].descZh : CASES_DATA[0].descEn}
+            </p>
+            <Link
+              href={`/cases/${CASES_DATA[0].slug}`}
+              className="group mt-2 self-start rounded-lg border border-white/40 px-6 py-3 font-label-caps text-xs uppercase tracking-wider text-white hover:bg-white hover:text-primary transition-colors flex items-center gap-3"
+            >
+              {lang === "zh" ? "查看專案詳情" : "VIEW CASE DETAILS"}
+              <ArrowChip className="w-6 h-6" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* FILTER BUTTONS & CASES GRID */}
       <section id="cases-grid" className="w-full py-16 md:py-24 px-margin-mobile md:px-margin-desktop bg-surface scroll-mt-20">
         <div className="flex flex-col gap-12">
-          {/* CATEGORY BUTTONS - HORIZONTALLY CENTERED */}
-          <div className="flex flex-wrap gap-2 md:gap-3 items-center justify-center">
-            {categories.map((cat) => {
-              const label = lang === "zh" ? cat.labelZh : cat.labelEn;
-              const isActive = activeCategory === cat.key;
-              return (
-                <button
-                  key={cat.key}
-                  onClick={() => handleCategoryChange(cat.key)}
-                  className={`px-4 py-2 text-xs font-label-caps tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-                    isActive
-                      ? "bg-primary text-white shadow-sm"
-                      : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-primary border border-outline-variant"
-                  }`}
-                >
-                  {label}
-                </button>
-              );
-            })}
+          {/* CATEGORY BUTTONS + CURRENCY SELECTOR */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="flex flex-wrap gap-2 md:gap-3 items-center justify-center md:justify-start">
+              {categories.map((cat) => {
+                const label = lang === "zh" ? cat.labelZh : cat.labelEn;
+                const isActive = activeCategory === cat.key;
+                return (
+                  <button
+                    key={cat.key}
+                    onClick={() => handleCategoryChange(cat.key)}
+                    className={`rounded-md px-4 py-2 text-xs font-label-caps tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                      isActive
+                        ? "bg-primary text-white shadow-sm"
+                        : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-primary border border-outline-variant"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="flex items-center justify-center md:justify-end gap-3">
+              <span className="font-label-caps text-xs text-on-surface-variant uppercase tracking-widest">
+                {t("currency.label")}
+              </span>
+              <CurrencySelector />
+            </div>
           </div>
 
           {/* CASES 3-COLUMN GRID */}
@@ -135,7 +177,7 @@ export function Cases() {
                 >
                   <Link
                     href={`/cases/${item.slug}`}
-                    className="flex flex-col h-full bg-surface-container-lowest border border-outline-variant hover:border-[#FFA601] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group overflow-hidden"
+                    className="rounded-xl flex flex-col h-full bg-surface-container-lowest border border-outline-variant hover:border-[#FFA601] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group overflow-hidden"
                   >
                     {/* Featured Image */}
                     <div className="relative h-64 overflow-hidden bg-black/10">
@@ -145,7 +187,7 @@ export function Cases() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-primary/90 backdrop-blur-sm text-white font-label-caps text-xs uppercase tracking-wider">
+                        <span className="rounded-full px-3 py-1 bg-primary/90 backdrop-blur-sm text-white font-label-caps text-xs uppercase tracking-wider">
                           {category}
                         </span>
                       </div>
@@ -167,6 +209,7 @@ export function Cases() {
                         <p className="font-body-md text-sm text-on-surface-variant line-clamp-3 leading-relaxed">
                           {desc}
                         </p>
+                        {item.priceJPY != null && <PriceBlock priceJPY={item.priceJPY} variant="compact" className="pt-1" />}
                       </div>
 
                       {/* Read More link */}
@@ -188,7 +231,7 @@ export function Cases() {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`px-4 py-2 border font-label-caps text-xs tracking-wider uppercase flex items-center gap-1 transition-colors ${
+                className={`rounded-md px-4 py-2 border font-label-caps text-xs tracking-wider uppercase flex items-center gap-1 transition-colors ${
                   currentPage === 1
                     ? "border-outline-variant text-on-surface-variant/40 cursor-not-allowed"
                     : "border-outline-variant text-primary hover:border-[#FFA601] hover:text-[#FFA601] cursor-pointer"
@@ -203,7 +246,7 @@ export function Cases() {
                 <button
                   key={pageNum}
                   onClick={() => handlePageChange(pageNum)}
-                  className={`w-10 h-10 border font-numeral-display text-sm font-medium transition-colors cursor-pointer ${
+                  className={`rounded-md w-10 h-10 border font-numeral-display text-sm font-medium transition-colors cursor-pointer ${
                     currentPage === pageNum
                       ? "bg-[#FFA601] border-[#FFA601] text-primary"
                       : "border-outline-variant bg-surface text-primary hover:border-primary"
@@ -217,7 +260,7 @@ export function Cases() {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`px-4 py-2 border font-label-caps text-xs tracking-wider uppercase flex items-center gap-1 transition-colors ${
+                className={`rounded-md px-4 py-2 border font-label-caps text-xs tracking-wider uppercase flex items-center gap-1 transition-colors ${
                   currentPage === totalPages
                     ? "border-outline-variant text-on-surface-variant/40 cursor-not-allowed"
                     : "border-outline-variant text-primary hover:border-[#FFA601] hover:text-[#FFA601] cursor-pointer"
@@ -238,7 +281,7 @@ export function Cases() {
         </h2>
         <Link
           href="/contact"
-          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
+          className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cases.cta.btn")}</span>
           <ArrowChip className="w-6 h-6" />

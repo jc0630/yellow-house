@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useLanguage } from "../lib/LanguageContext";
 import { CASES_DATA } from "../data/casesData";
 import { ArrowChip } from "../components/ArrowChip";
+import { PriceBlock } from "../components/PriceBlock";
 
 export function CaseDetail() {
   const [, params] = useRoute<{ slug: string }>("/cases/:slug");
@@ -68,7 +69,7 @@ export function CaseDetail() {
             className="md:col-span-9 flex flex-col gap-4"
           >
             <div className="flex flex-wrap items-center gap-3">
-              <span className="px-3 py-1 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold uppercase tracking-wider">
+              <span className="rounded-full px-3 py-1 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold uppercase tracking-wider">
                 {category}
               </span>
               <span className="font-label-caps text-xs text-white/80 tracking-wider">
@@ -102,7 +103,7 @@ export function CaseDetail() {
 
             <button
               onClick={handleShare}
-              className="px-4 py-2 border border-outline-variant hover:border-[#FFA601] bg-surface-container-lowest font-label-caps text-xs text-primary flex items-center gap-2 uppercase tracking-wider transition-colors cursor-pointer"
+              className="rounded-md px-4 py-2 border border-outline-variant hover:border-[#FFA601] bg-surface-container-lowest font-label-caps text-xs text-primary flex items-center gap-2 uppercase tracking-wider transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-sm text-[#FFA601]">share</span>
               <span>{copied ? (lang === "zh" ? "已複製連結！" : "Link Copied!") : (lang === "zh" ? "分享文章" : "Share")}</span>
@@ -110,12 +111,14 @@ export function CaseDetail() {
           </div>
 
           {/* Main Content Layout */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-col gap-12"
           >
+            {item.priceJPY != null && <PriceBlock priceJPY={item.priceJPY} variant="detail" />}
+
             {/* Overview */}
             <div className="flex flex-col gap-4">
               <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest flex items-center gap-2">
@@ -128,7 +131,7 @@ export function CaseDetail() {
             </div>
 
             {/* Featured Photo in Article */}
-            <div className="w-full aspect-[16/9] overflow-hidden shadow-lg border border-outline-variant">
+            <div className="rounded-xl w-full aspect-[16/9] overflow-hidden shadow-lg border border-outline-variant">
               <img
                 src={item.image}
                 alt={title}
@@ -137,7 +140,7 @@ export function CaseDetail() {
             </div>
 
             {/* Key Highlights */}
-            <div className="p-8 bg-surface-container-low border-l-4 border-[#FFA601] flex flex-col gap-6">
+            <div className="rounded-r-xl p-8 bg-brand-tint border-l-4 border-[#FFA601] flex flex-col gap-6">
               <h3 className="font-headline-md text-xl text-primary font-medium">
                 {lang === "zh" ? "關鍵規格與配置重點" : "Key Project Specifications & Highlights"}
               </h3>
@@ -166,7 +169,7 @@ export function CaseDetail() {
             </div>
 
             {/* Outcome */}
-            <div className="flex flex-col gap-4 p-8 bg-surface-container-lowest border border-outline-variant">
+            <div className="rounded-xl flex flex-col gap-4 p-8 bg-surface-container-lowest border border-outline-variant">
               <span className="font-label-caps text-xs text-primary uppercase tracking-widest">
                 {lang === "zh" ? "成效與資產價值" : "PROJECT OUTCOME"}
               </span>
@@ -179,7 +182,7 @@ export function CaseDetail() {
             <div className="pt-8 border-t border-outline-variant flex flex-col sm:flex-row items-center justify-between gap-4">
               <Link
                 href="/cases"
-                className="w-full sm:w-auto px-8 py-4 bg-primary text-white hover:bg-primary/90 font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
+                className="rounded-lg w-full sm:w-auto px-8 py-4 bg-primary text-white hover:bg-primary/90 font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
               >
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
                 <span>{lang === "zh" ? "返回全部案例" : "Back to All Cases"}</span>
@@ -187,7 +190,7 @@ export function CaseDetail() {
 
               <button
                 onClick={handleShare}
-                className="w-full sm:w-auto px-8 py-4 border border-primary text-primary hover:bg-primary hover:text-white font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                className="rounded-lg w-full sm:w-auto px-8 py-4 border border-primary text-primary hover:bg-primary hover:text-white font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-sm">share</span>
                 <span>{copied ? (lang === "zh" ? "已複製連結！" : "Link Copied!") : (lang === "zh" ? "分享此專案" : "Share Case Study")}</span>
@@ -204,7 +207,7 @@ export function CaseDetail() {
         </h2>
         <Link
           href="/contact"
-          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
+          className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cta.button")}</span>
           <ArrowChip className="w-6 h-6" />

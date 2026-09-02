@@ -68,7 +68,7 @@ export function NewsDetail() {
             className="md:col-span-9 flex flex-col gap-4"
           >
             <div className="flex flex-wrap items-center gap-3">
-              <span className="px-3 py-1 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold uppercase tracking-wider">
+              <span className="rounded-full px-3 py-1 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold uppercase tracking-wider">
                 {category}
               </span>
               <span className="font-label-caps text-xs text-white/80 tracking-wider">
@@ -102,7 +102,7 @@ export function NewsDetail() {
 
             <button
               onClick={handleShare}
-              className="px-4 py-2 border border-outline-variant hover:border-[#FFA601] bg-surface-container-lowest font-label-caps text-xs text-primary flex items-center gap-2 uppercase tracking-wider transition-colors cursor-pointer"
+              className="rounded-md px-4 py-2 border border-outline-variant hover:border-[#FFA601] bg-surface-container-lowest font-label-caps text-xs text-primary flex items-center gap-2 uppercase tracking-wider transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-sm text-[#FFA601]">share</span>
               <span>{copied ? (lang === "zh" ? "已複製連結！" : "Link Copied!") : (lang === "zh" ? "分享文章" : "Share")}</span>
@@ -117,12 +117,12 @@ export function NewsDetail() {
             className="flex flex-col gap-10"
           >
             {/* Lead Paragraph */}
-            <p className="font-body-lg text-primary text-lg md:text-xl leading-relaxed border-l-4 border-[#FFA601] pl-6 py-2 bg-surface-container-low/50">
+            <p className="rounded-r-lg font-body-lg text-primary text-lg md:text-xl leading-relaxed border-l-4 border-[#FFA601] pl-6 py-2 bg-surface-container-low/50">
               {content.lead}
             </p>
 
             {/* Featured Photo in Article */}
-            <div className="w-full aspect-[16/9] overflow-hidden shadow-lg border border-outline-variant my-4">
+            <div className="rounded-xl w-full aspect-[16/9] overflow-hidden shadow-lg border border-outline-variant my-4">
               <img
                 src={item.image}
                 alt={title}
@@ -145,7 +145,7 @@ export function NewsDetail() {
             </div>
 
             {/* Summary Box */}
-            <div className="p-8 bg-surface-container-low border border-outline-variant mt-4">
+            <div className="rounded-xl p-8 bg-brand-tint border border-outline-variant mt-4">
               <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest block mb-2">
                 {lang === "zh" ? "總結觀點" : "EXECUTIVE SUMMARY"}
               </span>
@@ -158,7 +158,7 @@ export function NewsDetail() {
             <div className="pt-8 border-t border-outline-variant flex flex-col sm:flex-row items-center justify-between gap-4">
               <Link
                 href="/news"
-                className="w-full sm:w-auto px-8 py-4 bg-primary text-white hover:bg-primary/90 font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
+                className="rounded-lg w-full sm:w-auto px-8 py-4 bg-primary text-white hover:bg-primary/90 font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
               >
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
                 <span>{lang === "zh" ? "返回最新消息" : "Back to All News"}</span>
@@ -166,7 +166,7 @@ export function NewsDetail() {
 
               <button
                 onClick={handleShare}
-                className="w-full sm:w-auto px-8 py-4 border border-primary text-primary hover:bg-primary hover:text-white font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                className="rounded-lg w-full sm:w-auto px-8 py-4 border border-primary text-primary hover:bg-primary hover:text-white font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-sm">share</span>
                 <span>{copied ? (lang === "zh" ? "已複製連結！" : "Link Copied!") : (lang === "zh" ? "分享此文章" : "Share Article")}</span>
@@ -183,7 +183,7 @@ export function NewsDetail() {
         </h2>
         <Link
           href="/contact"
-          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
+          className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cta.button")}</span>
           <ArrowChip className="w-6 h-6" />

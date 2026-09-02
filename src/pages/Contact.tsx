@@ -72,7 +72,7 @@ export function Contact() {
       </section>
 
       {/* CONTACT FORM & INFO SECTION */}
-      <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap">
+      <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap bg-brand-tint">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-gutter">
           {/* FORM */}
           <motion.div 
@@ -80,7 +80,7 @@ export function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-7 bg-surface-container-lowest p-8 md:p-12 border border-outline-variant shadow-sm hover:shadow-md transition-shadow duration-300"
+            className="rounded-xl lg:col-span-7 bg-surface-container-lowest p-8 md:p-12 border border-outline-variant shadow-sm hover:shadow-md transition-shadow duration-300"
           >
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-16 text-center gap-6 animate-in fade-in duration-500">
@@ -95,7 +95,7 @@ export function Contact() {
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-4 px-8 py-3 border border-primary text-primary font-label-caps hover:bg-primary hover:text-white transition-colors"
+                  className="rounded-lg mt-4 px-8 py-3 border border-primary text-primary font-label-caps hover:bg-primary hover:text-white transition-colors"
                 >
                   {lang === "zh" ? "填寫另一則詢問" : "SUBMIT ANOTHER INQUIRY"}
                 </button>
@@ -112,7 +112,7 @@ export function Contact() {
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                       placeholder="e.g. Yellow House Ltd."
-                      className="w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors"
+                      className="rounded-md w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -125,7 +125,7 @@ export function Contact() {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Taro Yamada"
-                      className="w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors"
+                      className="rounded-md w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors"
                     />
                   </div>
                 </div>
@@ -141,7 +141,7 @@ export function Contact() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="e.g. taro@example.com"
-                      className="w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors"
+                      className="rounded-md w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -153,7 +153,7 @@ export function Contact() {
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="e.g. +81 90-1234-5678"
-                      className="w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors"
+                      className="rounded-md w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors"
                     />
                   </div>
                 </div>
@@ -196,7 +196,7 @@ export function Contact() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-5 bg-primary text-white font-label-caps tracking-widest hover:bg-primary/90 transition-colors uppercase cursor-pointer disabled:opacity-50"
+                  className="rounded-lg w-full py-5 bg-primary text-white font-label-caps tracking-widest hover:bg-primary/90 transition-colors uppercase cursor-pointer disabled:opacity-50"
                 >
                   {loading ? t("contact.form.submitting") : t("contact.form.submit")}
                 </button>
@@ -280,7 +280,7 @@ export function Contact() {
               </div>
             </div>
 
-            <div className="bg-tertiary text-white p-8 rounded-none border-l-4 border-[#FFA601] hover:-translate-y-1 transition-transform duration-300">
+            <div className="bg-tertiary text-white p-8 rounded-r-xl border-l-4 border-[#FFA601] hover:-translate-y-1 transition-transform duration-300">
               <p className="font-body-md italic text-white/90 leading-relaxed">
                 {t("contact.quote")}
               </p>

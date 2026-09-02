@@ -54,7 +54,7 @@ export function Company() {
       {/* REPRESENTATIVE MESSAGE (02 代表人背景) */}
       <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-          <div className="md:col-span-5 relative group cursor-pointer overflow-hidden aspect-[3/4] shadow-xl border border-outline-variant">
+          <div className="rounded-xl md:col-span-5 relative group cursor-pointer overflow-hidden aspect-[3/4] shadow-xl border border-outline-variant animate-float">
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
               style={{
@@ -150,7 +150,7 @@ export function Company() {
 
 
       {/* CORE PHILOSOPHY */}
-      <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap">
+      <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap bg-brand-tint">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto gap-8">
           <span className="material-symbols-outlined text-[#FFA601] text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>architecture</span>
           <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary leading-tight whitespace-pre-line">
@@ -199,13 +199,13 @@ export function Company() {
             </div>
             <Link
               href="/contact"
-              className="self-start mt-4 px-8 py-4 border border-primary text-primary font-label-caps text-label-caps hover:bg-primary hover:text-white transition-colors duration-300 flex items-center gap-2 group uppercase"
+              className="rounded-lg self-start mt-4 px-8 py-4 border border-primary text-primary font-label-caps text-label-caps hover:bg-primary hover:text-white transition-colors duration-300 flex items-center gap-2 group uppercase"
             >
               <span>{t("cta.button")}</span>
               <ArrowChip className="w-6 h-6" />
             </Link>
           </div>
-          <div className="lg:col-span-7 h-[400px] md:h-[500px] w-full relative overflow-hidden group order-1 lg:order-2 shadow-xl border border-primary/10">
+          <div className="rounded-xl lg:col-span-7 h-[400px] md:h-[500px] w-full relative overflow-hidden group order-1 lg:order-2 shadow-xl border border-primary/10">
             <div
               className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out group-hover:scale-105"
               style={{
@@ -214,7 +214,7 @@ export function Company() {
               }}
             ></div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-            <div className="absolute bottom-6 left-6 bg-black/70 px-4 py-2 border border-white/20">
+            <div className="absolute bottom-6 left-6 bg-black/70 px-4 py-2 border border-white/20 rounded-md">
               <span className="font-label-caps text-white text-xs tracking-widest uppercase">KANAGAWA HEADQUARTERS</span>
             </div>
           </div>
@@ -226,9 +226,9 @@ export function Company() {
         <h2 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary relative z-10 leading-tight">
           {t("cta.title")}
         </h2>
-        <Link href="/contact" className="relative z-10 px-10 py-5 bg-primary text-white font-label-caps text-label-caps hover:bg-primary/90 transition-colors duration-300 flex items-center gap-3 group uppercase">
+        <Link href="/contact" className="rounded-lg relative z-10 px-10 py-5 bg-primary text-white font-label-caps text-label-caps hover:bg-primary/90 transition-colors duration-300 flex items-center gap-3 group uppercase">
           <span>{t("cta.button")}</span>
-          <span className="material-symbols-outlined text-sm transform group-hover:translate-x-1 transition-transform">east</span>
+          <ArrowChip className="w-6 h-6" />
         </Link>
       </section>
     </div>

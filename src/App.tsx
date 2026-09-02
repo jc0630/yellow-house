@@ -1,5 +1,6 @@
 import { Route, Switch, useLocation } from "wouter";
 import { useEffect } from "react";
+import { MotionConfig } from "motion/react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { BackToTop } from "./components/BackToTop";
@@ -13,6 +14,7 @@ import { NewsDetail } from "./pages/NewsDetail";
 import { Careers } from "./pages/Careers";
 import { Contact } from "./pages/Contact";
 import { LanguageProvider } from "./lib/LanguageContext";
+import { CurrencyProvider } from "./lib/CurrencyContext";
 
 function ScrollToTop() {
   const [pathname] = useLocation();
@@ -28,28 +30,32 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <div className="flex flex-col min-h-screen">
-        <ScrollToTop />
-        <Header />
-        <main className="flex-grow">
-          <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/services" component={Services} />
-            <Route path="/company" component={Company} />
-            <Route path="/cases/:slug" component={CaseDetail} />
-            <Route path="/cases" component={Cases} />
-            <Route path="/news/:slug" component={NewsDetail} />
-            <Route path="/news" component={News} />
-            <Route path="/careers" component={Careers} />
-            <Route path="/contact" component={Contact} />
-            {/* Fallback route to Home */}
-            <Route component={Home} />
-          </Switch>
-        </main>
-        <Footer />
-        <BackToTop />
-      </div>
-    </LanguageProvider>
+    <MotionConfig reducedMotion="user">
+      <LanguageProvider>
+        <CurrencyProvider>
+          <div className="flex flex-col min-h-screen">
+            <ScrollToTop />
+            <Header />
+            <main className="flex-grow">
+              <Switch>
+                <Route path="/" component={Home} />
+                <Route path="/services" component={Services} />
+                <Route path="/company" component={Company} />
+                <Route path="/cases/:slug" component={CaseDetail} />
+                <Route path="/cases" component={Cases} />
+                <Route path="/news/:slug" component={NewsDetail} />
+                <Route path="/news" component={News} />
+                <Route path="/careers" component={Careers} />
+                <Route path="/contact" component={Contact} />
+                {/* Fallback route to Home */}
+                <Route component={Home} />
+              </Switch>
+            </main>
+            <Footer />
+            <BackToTop />
+          </div>
+        </CurrencyProvider>
+      </LanguageProvider>
+    </MotionConfig>
   );
 }

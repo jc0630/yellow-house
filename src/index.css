@@ -56,24 +56,33 @@
   --spacing-section-gap: 120px;
   --spacing-margin-desktop: 64px;
 
-  --font-display-lg: "Playfair Display", serif;
-  --font-headline-lg: "Playfair Display", serif;
-  --font-body-lg: "Inter", sans-serif;
-  --font-headline-lg-mobile: "Playfair Display", serif;
-  --font-body-md: "Inter", sans-serif;
-  --font-label-caps: "Inter", sans-serif;
-  --font-display-lg-mobile: "Playfair Display", serif;
-  --font-numeral-display: "Playfair Display", serif;
-  --font-headline-md: "Playfair Display", serif;
+  --font-display-lg: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-headline-lg: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-body-lg: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-headline-lg-mobile: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-body-md: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-label-caps: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-display-lg-mobile: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-numeral-display: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-headline-md: "Noto Sans", "Noto Sans TC", sans-serif;
+
+  --color-brand-tint: #fff6e9;
+  --color-brand-tint-deep: #fdecd2;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 14px;
 
   --text-display-lg: 84px;
   --text-display-lg--line-height: 92px;
   --text-display-lg--letter-spacing: -0.02em;
-  --text-display-lg--font-weight: 400;
+  --text-display-lg--font-weight: 500;
 
   --text-headline-lg: 48px;
   --text-headline-lg--line-height: 56px;
-  --text-headline-lg--font-weight: 400;
+  --text-headline-lg--font-weight: 600;
 
   --text-body-lg: 18px;
   --text-body-lg--line-height: 28px;
@@ -81,7 +90,7 @@
 
   --text-headline-lg-mobile: 32px;
   --text-headline-lg-mobile--line-height: 38px;
-  --text-headline-lg-mobile--font-weight: 400;
+  --text-headline-lg-mobile--font-weight: 600;
 
   --text-body-md: 16px;
   --text-body-md--line-height: 24px;
@@ -95,15 +104,15 @@
   --text-display-lg-mobile: 48px;
   --text-display-lg-mobile--line-height: 52px;
   --text-display-lg-mobile--letter-spacing: -0.01em;
-  --text-display-lg-mobile--font-weight: 400;
+  --text-display-lg-mobile--font-weight: 500;
 
   --text-numeral-display: 24px;
   --text-numeral-display--line-height: 24px;
-  --text-numeral-display--font-weight: 400;
+  --text-numeral-display--font-weight: 600;
 
   --text-headline-md: 32px;
   --text-headline-md--line-height: 40px;
-  --text-headline-md--font-weight: 400;
+  --text-headline-md--font-weight: 600;
 }
 
 @layer base {
@@ -119,6 +128,12 @@
   0% { transform: translateX(-100%) skewX(12deg); }
   100% { transform: translateX(200%) skewX(12deg); }
 }
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -126,5 +141,24 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .animate-float {
+    animation: float-y 5s ease-in-out infinite;
+  }
+  .animate-float-slow {
+    animation: float-y 6.5s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-float,
+  .animate-float-slow {
+    animation: none !important;
   }
 }

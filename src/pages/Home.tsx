@@ -32,7 +32,7 @@ export function Home() {
             {t("home.hero.desc")}
           </p>
           <div className="flex flex-wrap items-center gap-4 pt-4">
-            <Link href="/contact" className="border border-primary px-8 py-4 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">
+            <Link href="/contact" className="rounded-lg border border-primary px-8 py-4 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">
               {t("home.hero.consult")}
             </Link>
             <Link href="/services" className="group border border-transparent px-8 py-4 font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest flex items-center gap-3">
@@ -41,8 +41,8 @@ export function Home() {
             </Link>
           </div>
         </div>
-        <div className="md:col-span-5 md:col-start-8 relative mt-12 md:mt-0">
-          <div className="w-full aspect-[3/4] bg-surface-container relative overflow-hidden group shadow-lg">
+        <div className="md:col-span-5 md:col-start-8 relative mt-12 md:mt-0 animate-float-slow">
+          <div className="w-full aspect-[3/4] bg-surface-container relative overflow-hidden group shadow-lg rounded-xl">
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
               style={{
@@ -52,7 +52,7 @@ export function Home() {
             ></div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-              <span className="font-label-caps text-label-caps text-white bg-black/60 px-3 py-1.5 border border-white/20">KANAGAWA / TOKYO</span>
+              <span className="font-label-caps text-label-caps text-white bg-black/60 px-3 py-1.5 border border-white/20 rounded-md">KANAGAWA / TOKYO</span>
               <span className="font-numeral-display text-numeral-display text-[#FFA601] text-3xl font-light">15Y</span>
             </div>
           </div>
@@ -126,7 +126,7 @@ export function Home() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className="p-8 bg-surface border border-outline-variant flex flex-col justify-between gap-6 hover:border-[#FFA601] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+              className="rounded-xl p-8 bg-surface border border-outline-variant flex flex-col justify-between gap-6 hover:border-[#FFA601] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
             >
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between border-b border-outline-variant/60 pb-3">
@@ -162,7 +162,7 @@ export function Home() {
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 }
             }}
-            className="p-8 bg-primary text-white flex flex-col justify-between gap-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+            className="rounded-xl p-8 bg-primary text-white flex flex-col justify-between gap-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
           >
             <div className="flex flex-col gap-4">
               <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest">ADVISORY</span>
@@ -175,7 +175,7 @@ export function Home() {
                   : "From acquisition, holding, management, development, and operations to resale, empowering you with deep practical insights."}
               </p>
             </div>
-            <Link href="/contact" className="px-6 py-3 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold hover:bg-white transition-colors self-start uppercase tracking-wider">
+            <Link href="/contact" className="rounded-lg px-6 py-3 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold hover:bg-white transition-colors self-start uppercase tracking-wider">
               {t("cta.button")}
             </Link>
           </motion.div>
@@ -183,7 +183,7 @@ export function Home() {
       </section>
 
       {/* SECTION 03 & 07: 6 PERSPECTIVE ANGLES */}
-      <section className="w-full py-section-gap px-margin-mobile md:px-margin-desktop">
+      <section className="w-full py-section-gap px-margin-mobile md:px-margin-desktop bg-brand-tint">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -224,7 +224,7 @@ export function Home() {
                 hidden: { opacity: 0, x: -20 },
                 visible: { opacity: 1, x: 0 }
               }}
-              className="p-6 border-l-2 border-[#FFA601] bg-surface-container-lowest flex flex-col gap-2 hover:bg-surface-container-low transition-colors duration-300"
+              className="rounded-r-xl p-6 border-l-2 border-[#FFA601] bg-surface-container-lowest flex flex-col gap-2 hover:bg-surface-container-low transition-colors duration-300"
             >
               <span className="font-label-caps text-xs text-on-surface-variant uppercase tracking-wider">{item.tag}</span>
               <h4 className="font-headline-md text-lg text-primary">{t(item.title)}</h4>
@@ -238,7 +238,7 @@ export function Home() {
       <section className="w-full bg-surface-container-low py-section-gap px-margin-mobile md:px-margin-desktop border-t border-outline-variant">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
           <div className="md:col-span-5 flex justify-center">
-            <div className="w-full max-w-sm aspect-[3/4] bg-surface relative overflow-hidden group shadow-lg border border-outline-variant">
+            <div className="w-full max-w-sm aspect-[3/4] bg-surface relative overflow-hidden group shadow-lg border border-outline-variant rounded-xl">
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{
@@ -258,7 +258,7 @@ export function Home() {
             <p className="font-body-md text-body-md text-on-surface-variant max-w-lg leading-relaxed">
               {t("home.advisor.desc")}
             </p>
-            <Link href="/company" className="border border-primary px-8 py-3 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors self-start uppercase tracking-widest mt-2">
+            <Link href="/company" className="rounded-lg border border-primary px-8 py-3 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors self-start uppercase tracking-widest mt-2">
               {t("home.advisor.cta")}
             </Link>
           </div>
@@ -267,18 +267,17 @@ export function Home() {
 
       {/* 6-STEP SERVICE FLOW (06) */}
       <section className="w-full py-section-gap px-margin-mobile md:px-margin-desktop">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#FFA601] pb-6 gap-4"
+          className="relative overflow-hidden flex flex-col items-center text-center mb-16 gap-4 max-w-2xl mx-auto"
         >
           <SectionWatermark text="PROCESS" />
-          <div className="relative z-10">
-            <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">{t("home.process.tag")}</span>
-            <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mt-2">{t("home.process.title")}</h2>
-          </div>
-          <p className="relative z-10 font-body-md text-on-surface-variant max-w-md">
+          <span className="relative z-10 font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">{t("home.process.tag")}</span>
+          <h2 className="relative z-10 font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">{t("home.process.title")}</h2>
+          <span className="relative z-10 w-12 h-[2px] bg-[#FFA601]"></span>
+          <p className="relative z-10 font-body-md text-on-surface-variant">
             {t("home.process.desc")}
           </p>
         </motion.div>
@@ -307,7 +306,7 @@ export function Home() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className="p-8 border border-outline-variant bg-surface-container-lowest flex flex-col gap-4 hover:-translate-y-1 hover:shadow-lg hover:border-[#FFA601]/50 transition-all duration-300 group"
+              className="rounded-xl p-8 border border-outline-variant bg-surface-container-lowest flex flex-col gap-4 hover:-translate-y-1 hover:shadow-lg hover:border-[#FFA601]/50 transition-all duration-300 group"
             >
               <div className="flex items-center gap-4 border-b border-outline-variant/60 pb-4 mb-2 group-hover:border-[#FFA601]/50 transition-colors">
                 <div className="w-10 h-10 rounded-full border border-[#FFA601] flex items-center justify-center bg-[#FFA601]/10 text-[#FFA601]">
@@ -340,7 +339,7 @@ export function Home() {
         <h2 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary">
           {t("cta.title")}
         </h2>
-        <Link href="/contact" className="bg-primary text-on-primary px-10 py-5 font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-tint transition-colors">
+        <Link href="/contact" className="rounded-lg bg-primary text-on-primary px-10 py-5 font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-tint transition-colors">
           {t("cta.button")}
         </Link>
       </section>

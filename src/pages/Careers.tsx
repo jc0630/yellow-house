@@ -86,7 +86,7 @@ export function Careers() {
       </section>
 
       {/* OPEN POSITIONS */}
-      <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap">
+      <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap bg-brand-tint">
         <div className="flex items-center justify-between mb-16 border-b border-primary pb-6">
           <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
             {t("careers.open_positions")}
@@ -100,10 +100,10 @@ export function Careers() {
           {jobs.map((job) => (
             <div
               key={job.id}
-              className="border border-outline-variant bg-surface-container-lowest p-8 md:p-12 hover:border-[#FFA601] transition-all duration-300 shadow-sm"
+              className="rounded-xl border border-outline-variant bg-surface-container-lowest p-8 md:p-12 hover:border-[#FFA601] transition-all duration-300 shadow-sm"
             >
               <div className="flex flex-wrap items-center gap-4 mb-4">
-                <span className="bg-primary text-white text-xs px-3 py-1 font-label-caps tracking-widest">
+                <span className="rounded-full bg-primary text-white text-xs px-3 py-1 font-label-caps tracking-widest">
                   {lang === "zh" ? job.typeZh : job.typeEn}
                 </span>
                 <span className="text-on-surface-variant text-xs font-label-caps tracking-widest">
@@ -135,20 +135,20 @@ export function Careers() {
               <div className="flex items-center gap-4">
                 <Link
                   href="/contact"
-                  className="px-8 py-3 bg-[#FFA601] text-primary font-label-caps text-label-caps font-bold hover:bg-primary hover:text-white transition-colors duration-300 uppercase tracking-widest inline-block"
+                  className="rounded-lg px-8 py-3 bg-[#FFA601] text-primary font-label-caps text-label-caps font-bold hover:bg-primary hover:text-white transition-colors duration-300 uppercase tracking-widest inline-block"
                 >
                   {t("careers.join.btn")}
                 </Link>
                 <button
                   onClick={() => setSelectedJob(selectedJob === job.id ? null : job.id)}
-                  className="px-6 py-3 border border-primary text-primary font-label-caps text-label-caps hover:bg-surface-container transition-colors uppercase tracking-widest cursor-pointer"
+                  className="rounded-lg px-6 py-3 border border-primary text-primary font-label-caps text-label-caps hover:bg-surface-container transition-colors uppercase tracking-widest cursor-pointer"
                 >
                   {selectedJob === job.id ? (lang === "zh" ? "收起說明" : "LESS INFO") : (lang === "zh" ? "查看詳情" : "DETAILS")}
                 </button>
               </div>
 
               {selectedJob === job.id && (
-                <div className="mt-6 p-6 bg-surface-container rounded font-body-md text-on-surface animate-in fade-in duration-300">
+                <div className="mt-6 p-6 bg-surface-container rounded-lg font-body-md text-on-surface animate-in fade-in duration-300">
                   <h5 className="font-bold mb-2">{lang === "zh" ? "福利與支援計畫" : "Benefits & Support System"}</h5>
                   <p className="text-on-surface-variant leading-relaxed">
                     {lang === "zh"
@@ -186,7 +186,7 @@ export function Careers() {
         </p>
         <Link
           href="/contact"
-          className="px-12 py-4 bg-primary text-white font-label-caps tracking-widest hover:bg-surface-tint transition-colors duration-300 uppercase inline-block"
+          className="rounded-lg px-12 py-4 bg-primary text-white font-label-caps tracking-widest hover:bg-surface-tint transition-colors duration-300 uppercase inline-block"
         >
           {t("careers.join.btn")}
         </Link>

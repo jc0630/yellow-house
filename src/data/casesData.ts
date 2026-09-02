@@ -11,6 +11,8 @@ export interface CaseArticle {
   image: string;
   locationZh: string;
   locationEn: string;
+  /** Reference transaction value in JPY. Omit for cases with no single transaction price (e.g. ongoing management). */
+  priceJPY?: number;
   detailsZh: {
     overview: string;
     highlights: string[];
@@ -39,6 +41,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=85",
     locationZh: "東京都港區南青山",
     locationEn: "Minami-Aoyama, Minato-ku, Tokyo",
+    priceJPY: 580000000,
     detailsZh: {
       overview: "客戶為注重隱私與資產耐久性的海外家族，鎖定東京都心核心地段的高級住宅。本案標地位於南青山幽靜街區，為知名品牌建商打造之低樓層頂級住宅。",
       highlights: [
@@ -73,6 +76,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=85",
     locationZh: "東京都澀谷區",
     locationEn: "Shibuya-ku, Tokyo",
+    priceJPY: 1250000000,
     detailsZh: {
       overview: "本案為澀谷主要商圈周邊之整棟地上 6 層商用物業。原屋主因資產重組急需變現，本團隊以持有者視角迅速評估實際租約與硬體耐用年限。",
       highlights: [
@@ -107,6 +111,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=85",
     locationZh: "神奈川縣鎌倉市",
     locationEn: "Kamakura, Kanagawa",
+    priceJPY: 320000000,
     detailsZh: {
       overview: "客戶期盼在古都鎌倉打造遠眺相模灣的私人度假莊園。本團隊從土地買賣、法規調查、水土保持到營造招標全程統籌。",
       highlights: [
@@ -141,6 +146,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=85",
     locationZh: "東京都新宿區",
     locationEn: "Shinjuku-ku, Tokyo",
+    priceJPY: 890000000,
     detailsZh: {
       overview: "整棟 16 戶單身與情侶格局之鋼筋混凝土公寓，屋齡 12 年，位於租賃需求極度旺盛的新宿主要地鐵站周邊。",
       highlights: [
@@ -175,6 +181,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85",
     locationZh: "東京都港區六本木",
     locationEn: "Roppongi, Minato-ku, Tokyo",
+    priceJPY: 310000000,
     detailsZh: {
       overview: "鎖定港區六本木具有地標景觀但室內裝潢老舊的中古高級物件，評估拆除重組之附加價值潛力後果斷收購。",
       highlights: [
@@ -209,6 +216,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=85",
     locationZh: "神奈川縣足柄下郡箱根町",
     locationEn: "Hakone, Kanagawa",
+    priceJPY: 180000000,
     detailsZh: {
       overview: "箱根為日本最具代表性的國際觀光名所。本案為私人持有的傳統木造溫泉宅邸，經本公司整體評估後轉型為包棟奢華度假宿所。",
       highlights: [
@@ -243,6 +251,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=1600&q=85",
     locationZh: "東京都中央區銀座",
     locationEn: "Ginza, Chuo-ku, Tokyo",
+    priceJPY: 720000000,
     detailsZh: {
       overview: "銀座地段具備極高全球資產識別度。本標的位於銀座一丁目黃金街角，租客為知名高級珠寶鐘錶品牌。",
       highlights: [
@@ -277,6 +286,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1600&q=85",
     locationZh: "神奈川縣橫濱市西區",
     locationEn: "Minato Mirai, Nishi-ku, Yokohama",
+    priceJPY: 215000000,
     detailsZh: {
       overview: "客戶重視國際化生活氛圍與開闊海景。本案位於橫濱港未來指標性 50 層超高層制震塔樓，配置 24 小時禮賓服務與專屬健身會所。",
       highlights: [
@@ -311,6 +321,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85",
     locationZh: "東京都目黑區",
     locationEn: "Meguro-ku, Tokyo",
+    priceJPY: 620000000,
     detailsZh: {
       overview: "原基地為繼承後閒置之大面積老舊建物。本團隊評估周邊高級住宅需求強烈，決定進行拆除、分割與全新自建設計。",
       highlights: [
@@ -345,6 +356,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=85",
     locationZh: "東京都新宿區西新宿",
     locationEn: "Nishi-Shinjuku, Shinjuku-ku, Tokyo",
+    priceJPY: 168000000,
     detailsZh: {
       overview: "針對都心租屋族群對現代化廚衛與乾濕分離的強烈需求，將 1990 年代老舊三合一衛浴公寓全面升級重組。",
       highlights: [
@@ -379,6 +391,7 @@ export const CASES_DATA: CaseArticle[] = [
     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=85",
     locationZh: "千葉縣",
     locationEn: "Chiba Prefecture",
+    priceJPY: 450000000,
     detailsZh: {
       overview: "因應電子商務蓬勃發展，大東京首都圈周邊具備便利高速公路節點的現代化倉儲物流用地極度搶手。",
       highlights: [

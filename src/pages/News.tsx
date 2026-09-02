@@ -22,6 +22,7 @@ export function News() {
   ];
 
   const filteredNews = NEWS_DATA.filter((item) => {
+    if (item.slug === NEWS_DATA[0].slug) return false; // already shown in the featured block above
     if (selectedCategory === "ALL") return true;
     if (selectedCategory === "MARKET") return item.categoryEn === "Market Insights";
     if (selectedCategory === "GUIDE") return item.categoryEn === "Practical Guide";
@@ -58,6 +59,34 @@ export function News() {
         </div>
       </section>
 
+      {/* FEATURED / PINNED ARTICLE */}
+      {NEWS_DATA[0] && (
+        <Link
+          href={`/news/${NEWS_DATA[0].slug}`}
+          className="group w-full relative min-h-[320px] md:min-h-[420px] flex items-end overflow-hidden border-b border-[#FFA601]"
+        >
+          <div
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+            style={{ backgroundImage: `url('${NEWS_DATA[0].image}')` }}
+          ></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-[#FFA601]/10"></div>
+          <div className="relative z-10 w-full px-margin-mobile md:px-margin-desktop py-10 md:py-14 flex flex-col gap-3 max-w-3xl">
+            <span className="rounded-full self-start px-3 py-1 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold uppercase tracking-wider">
+              {lang === "zh" ? "焦點消息" : "FEATURED"}
+            </span>
+            <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white leading-tight">
+              {lang === "zh" ? NEWS_DATA[0].titleZh : NEWS_DATA[0].titleEn}
+            </h2>
+            <p className="font-body-md text-white/80 leading-relaxed max-w-2xl hidden md:block">
+              {lang === "zh" ? NEWS_DATA[0].excerptZh : NEWS_DATA[0].excerptEn}
+            </p>
+            <span className="inline-flex items-center gap-3 font-label-caps text-xs text-white mt-2 uppercase tracking-wider">
+              {t("news.read_more")} <ArrowChip className="w-6 h-6" />
+            </span>
+          </div>
+        </Link>
+      )}
+
       {/* ARTICLE LIST & CATEGORIES */}
       <section className="w-full px-margin-mobile md:px-margin-desktop py-16 md:py-24 grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-12 relative z-10 bg-surface">
         {/* Category Sidebar on Desktop */}
@@ -79,7 +108,7 @@ export function News() {
                 <button
                   key={cat.key}
                   onClick={() => setSelectedCategory(cat.key)}
-                  className={`px-4 py-3 text-xs font-label-caps tracking-wider text-left uppercase transition-all duration-300 cursor-pointer flex items-center justify-between ${
+                  className={`rounded-md px-4 py-3 text-xs font-label-caps tracking-wider text-left uppercase transition-all duration-300 cursor-pointer flex items-center justify-between ${
                     isActive
                       ? "bg-primary text-white font-medium"
                       : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-primary border border-outline-variant/60"
@@ -125,14 +154,14 @@ export function News() {
                     className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center cursor-pointer"
                   >
                     {/* Thumbnail */}
-                    <div className="md:col-span-4 h-52 md:h-60 relative overflow-hidden bg-black/10 border border-outline-variant">
+                    <div className="rounded-xl md:col-span-4 h-52 md:h-60 relative overflow-hidden bg-black/10 border border-outline-variant">
                       <img
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         src={item.image}
                         alt={title}
                       />
                       <div className="absolute top-3 left-3">
-                        <span className="px-2.5 py-1 bg-primary/90 text-white font-label-caps text-[11px] uppercase tracking-wider">
+                        <span className="rounded-full px-2.5 py-1 bg-primary/90 text-white font-label-caps text-[11px] uppercase tracking-wider">
                           {category}
                         </span>
                       </div>
@@ -177,7 +206,7 @@ export function News() {
         </h2>
         <Link
           href="/contact"
-          className="group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
+          className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cta.button")}</span>
           <ArrowChip className="w-6 h-6" />

@@ -124,7 +124,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`py-2 px-3 rounded text-base font-label-caps transition-colors ${
+                className={`py-2 px-3 rounded-md text-base font-label-caps transition-colors ${
                   location === item.href
                     ? "bg-white/15 text-white font-bold"
                     : "text-white/80 hover:bg-white/10 hover:text-white"
