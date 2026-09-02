@@ -125,7 +125,7 @@ export function CaseDetail() {
                 <span className="w-4 h-px bg-[#FFA601]"></span>
                 {lang === "zh" ? "專案概述" : "PROJECT OVERVIEW"}
               </span>
-              <p className="font-body-lg text-primary text-lg md:text-xl leading-relaxed">
+              <p className="max-w-[70ch] font-body-lg text-primary text-lg md:text-xl leading-relaxed">
                 {details.overview}
               </p>
             </div>
@@ -163,7 +163,7 @@ export function CaseDetail() {
               <h3 className="font-headline-md text-2xl text-primary font-medium">
                 {lang === "zh" ? "從實際持有者視角的盡職調查與談判" : "Due Diligence & Execution with an Owner's Mindset"}
               </h3>
-              <p className="font-body-md text-on-surface-variant text-base md:text-lg leading-relaxed">
+              <p className="max-w-[70ch] font-body-md text-on-surface-variant text-base md:text-lg leading-relaxed">
                 {details.strategy}
               </p>
             </div>

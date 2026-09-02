@@ -75,44 +75,54 @@
   --radius-xl: 12px;
   --radius-2xl: 14px;
 
-  --text-display-lg: 84px;
-  --text-display-lg--line-height: 92px;
-  --text-display-lg--letter-spacing: -0.02em;
-  --text-display-lg--font-weight: 500;
+  /* H1 — desktop 56px/1.18, mobile 36px/1.22 (see -mobile variant below) */
+  --text-display-lg: 56px;
+  --text-display-lg--line-height: 66px;
+  --text-display-lg--letter-spacing: -0.01em;
+  --text-display-lg--font-weight: 700;
 
-  --text-headline-lg: 48px;
-  --text-headline-lg--line-height: 56px;
+  /* H2 — desktop 40px/1.25 */
+  --text-headline-lg: 40px;
+  --text-headline-lg--line-height: 50px;
   --text-headline-lg--font-weight: 600;
 
+  /* Body (large) — 18px/1.72 */
   --text-body-lg: 18px;
-  --text-body-lg--line-height: 28px;
+  --text-body-lg--line-height: 31px;
   --text-body-lg--font-weight: 400;
 
-  --text-headline-lg-mobile: 32px;
+  /* H2 mobile — 30px/1.27 */
+  --text-headline-lg-mobile: 30px;
   --text-headline-lg-mobile--line-height: 38px;
   --text-headline-lg-mobile--font-weight: 600;
 
+  /* Body (default) — 16px/1.75 */
   --text-body-md: 16px;
-  --text-body-md--line-height: 24px;
+  --text-body-md--line-height: 28px;
   --text-body-md--font-weight: 400;
 
-  --text-label-caps: 12px;
-  --text-label-caps--line-height: 16px;
-  --text-label-caps--letter-spacing: 0.1em;
+  /* Small text / label / nav / button — 13px/1.54 */
+  --text-label-caps: 13px;
+  --text-label-caps--line-height: 20px;
+  --text-label-caps--letter-spacing: 0.08em;
   --text-label-caps--font-weight: 600;
 
-  --text-display-lg-mobile: 48px;
-  --text-display-lg-mobile--line-height: 52px;
-  --text-display-lg-mobile--letter-spacing: -0.01em;
-  --text-display-lg-mobile--font-weight: 500;
+  /* H1 mobile — 36px/1.22 */
+  --text-display-lg-mobile: 36px;
+  --text-display-lg-mobile--line-height: 44px;
+  --text-display-lg-mobile--letter-spacing: -0.005em;
+  --text-display-lg-mobile--font-weight: 700;
 
   --text-numeral-display: 24px;
-  --text-numeral-display--line-height: 24px;
+  --text-numeral-display--line-height: 28px;
   --text-numeral-display--font-weight: 600;
 
-  --text-headline-md: 32px;
-  --text-headline-md--line-height: 40px;
+  /* H3 — 28px/1.36 (used at both breakpoints; no dedicated mobile token) */
+  --text-headline-md: 28px;
+  --text-headline-md--line-height: 38px;
   --text-headline-md--font-weight: 600;
+
+  --leading-relaxed: 1.75;
 }
 
 @layer base {

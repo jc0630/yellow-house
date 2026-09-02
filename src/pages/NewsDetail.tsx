@@ -137,7 +137,7 @@ export function NewsDetail() {
                   <h2 className="font-headline-md text-2xl text-primary font-medium">
                     {sec.heading}
                   </h2>
-                  <p className="font-body-md text-on-surface-variant text-base md:text-lg leading-relaxed">
+                  <p className="max-w-[70ch] font-body-md text-on-surface-variant text-base md:text-lg leading-relaxed">
                     {sec.body}
                   </p>
                 </div>

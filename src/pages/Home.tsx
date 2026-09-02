@@ -96,7 +96,7 @@ export function Home() {
           <SectionWatermark text="BUSINESS" />
           <div className="relative z-10">
             <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">{t("home.services.tag")}</span>
-            <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mt-2">{t("home.services.title")}</h2>
+            <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mt-3">{t("home.services.title")}</h2>
           </div>
           <p className="relative z-10 font-body-md text-on-surface-variant max-w-md">
             {t("home.services.desc")}
@@ -193,7 +193,7 @@ export function Home() {
           <SectionWatermark text="PERSPECTIVE" />
           <div className="relative z-10">
             <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">{t("home.perspective.tag")}</span>
-            <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mt-2">{t("home.perspective.title")}</h2>
+            <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mt-3">{t("home.perspective.title")}</h2>
           </div>
           <p className="relative z-10 font-body-md text-on-surface-variant max-w-lg">
             {t("home.perspective.desc")}

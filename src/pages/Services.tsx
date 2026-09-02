@@ -1,11 +1,61 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "../lib/LanguageContext";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { ArrowChip } from "../components/ArrowChip";
+
+const CORE_SERVICES = [
+  {
+    id: 0,
+    num: "home.biz1.num",
+    title: "home.biz1.title",
+    desc: "home.biz1.desc",
+    items: ["home.biz1.item1", "home.biz1.item2", "home.biz1.item3"],
+    img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=85",
+    icon: "real_estate_agent"
+  },
+  {
+    id: 1,
+    num: "home.biz2.num",
+    title: "home.biz2.title",
+    desc: "home.biz2.desc",
+    items: ["home.biz2.item1", "home.biz2.item2", "home.biz2.item3"],
+    img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85",
+    icon: "manage_accounts"
+  },
+  {
+    id: 2,
+    num: "home.biz3.num",
+    title: "home.biz3.title",
+    desc: "home.biz3.desc",
+    items: ["home.biz3.item1", "home.biz3.item2", "home.biz3.item3"],
+    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=85",
+    icon: "domain_add"
+  },
+  {
+    id: 3,
+    num: "home.biz4.num",
+    title: "home.biz4.title",
+    desc: "home.biz4.desc",
+    items: ["home.biz4.item1", "home.biz4.item2", "home.biz4.item3"],
+    img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=85",
+    icon: "architecture"
+  },
+  {
+    id: 4,
+    num: "home.biz5.num",
+    title: "home.biz5.title",
+    desc: "home.biz5.desc",
+    items: ["home.biz5.item1", "home.biz5.item2", "home.biz5.item3"],
+    img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=85",
+    icon: "hotel"
+  }
+];
 
 export function Services() {
   const { t, lang } = useLanguage();
+  const [activeService, setActiveService] = useState(0);
+  const activeSvc = CORE_SERVICES[activeService];
 
   useEffect(() => {
     document.title = lang === "zh" ? "Yellow House - 服務項目" : "Yellow House - Services";
@@ -117,151 +167,117 @@ export function Services() {
         </div>
       </section>
 
-      {/* CORE BUSINESSES DETAILED SECTIONS */}
-      <div className="w-full flex flex-col">
-        {[
-          { 
-            id: 0,
-            num: "home.biz1.num", 
-            title: "home.biz1.title", 
-            desc: "home.biz1.desc", 
-            items: ["home.biz1.item1", "home.biz1.item2", "home.biz1.item3"], 
-            img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=85",
-            icon: "real_estate_agent"
-          },
-          { 
-            id: 1,
-            num: "home.biz2.num", 
-            title: "home.biz2.title", 
-            desc: "home.biz2.desc", 
-            items: ["home.biz2.item1", "home.biz2.item2", "home.biz2.item3"], 
-            img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85",
-            icon: "manage_accounts",
-            reverse: true
-          },
-          { 
-            id: 2,
-            num: "home.biz3.num", 
-            title: "home.biz3.title", 
-            desc: "home.biz3.desc", 
-            items: ["home.biz3.item1", "home.biz3.item2", "home.biz3.item3"], 
-            img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=85",
-            icon: "domain_add"
-          },
-          { 
-            id: 3,
-            num: "home.biz4.num", 
-            title: "home.biz4.title", 
-            desc: "home.biz4.desc", 
-            items: ["home.biz4.item1", "home.biz4.item2", "home.biz4.item3"], 
-            img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=85",
-            icon: "architecture",
-            reverse: true
-          },
-          { 
-            id: 4,
-            num: "home.biz5.num", 
-            title: "home.biz5.title", 
-            desc: "home.biz5.desc", 
-            items: ["home.biz5.item1", "home.biz5.item2", "home.biz5.item3"], 
-            img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=85",
-            icon: "hotel"
-          }
-        ].map((svc, idx) => {
-          if (svc.id === 4) {
-            // Final business line gets a full-bleed image + text-overlay treatment for visual rhythm
-            return (
-              <motion.section
-                key={svc.id}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="w-full relative min-h-[480px] md:min-h-[560px] flex items-end overflow-hidden border-b border-outline-variant/50"
-              >
-                <div
-                  className="absolute inset-0 bg-cover bg-center scale-105"
-                  style={{ backgroundImage: `url('${svc.img}')` }}
-                ></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10"></div>
-                <div className="relative z-10 w-full px-margin-mobile md:px-margin-desktop py-12 md:py-16">
-                  <div className="max-w-2xl flex flex-col gap-5">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full border border-[#FFA601] flex items-center justify-center bg-[#FFA601]/20 text-[#FFA601]">
-                        <span className="material-symbols-outlined text-2xl">{svc.icon}</span>
-                      </div>
-                      <h2 className="font-numeral-display text-[#FFA601] text-3xl">{t(svc.num)}</h2>
-                    </div>
-                    <h3 className="font-headline-lg text-white">{t(svc.title)}</h3>
-                    <p className="font-body-lg text-white/85 leading-relaxed">{t(svc.desc)}</p>
-                    <ul className="flex flex-wrap gap-3 mt-2">
-                      {svc.items.map((item, i) => (
-                        <li
-                          key={i}
-                          className="rounded-full px-4 py-2 bg-white/10 border border-white/25 backdrop-blur-sm text-white text-xs font-label-caps tracking-wide flex items-center gap-2"
-                        >
-                          <span className="material-symbols-outlined text-[#FFA601] text-sm">check_circle</span>
-                          {t(item)}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </motion.section>
-            );
-          }
+      {/* CORE BUSINESSES — TAB SELECTOR + SINGLE ACTIVE PANEL */}
+      <section className="w-full py-16 md:py-24 px-margin-mobile md:px-margin-desktop">
+        <div className="flex flex-col items-center text-center gap-4 mb-12 md:mb-16 max-w-2xl mx-auto">
+          <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">
+            {t("home.services.tag")}
+          </span>
+          <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+            {t("home.services.title")}
+          </h2>
+          <p className="font-body-md text-on-surface-variant">
+            {t("home.services.desc")}
+          </p>
+        </div>
 
-          const tinted = idx % 2 === 1;
-          return (
-            <section
-              key={svc.id}
-              className={`w-full py-16 md:py-24 px-margin-mobile md:px-margin-desktop border-b border-outline-variant/50 ${
-                tinted ? "bg-brand-tint" : ""
-              }`}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-                <motion.div
-                  initial={{ opacity: 0, x: svc.reverse ? 20 : -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className={`md:col-span-5 flex flex-col justify-center ${svc.reverse ? 'md:col-start-8 order-2 md:order-2' : 'order-2 md:order-1'}`}
+        {/* MOBILE: horizontal-scroll tabs (body stays non-scrolling) */}
+        <div className="md:hidden -mx-5 px-5 mb-8 overflow-x-auto no-scrollbar">
+          <div className="flex gap-3 w-max">
+            {CORE_SERVICES.map((svc, idx) => {
+              const isActive = idx === activeService;
+              return (
+                <button
+                  key={svc.id}
+                  type="button"
+                  onClick={() => setActiveService(idx)}
+                  aria-pressed={isActive}
+                  className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-lg border transition-colors duration-200 ${
+                    isActive
+                      ? "bg-brand-tint border-[#FFA601]"
+                      : "border-outline-variant text-on-surface-variant"
+                  }`}
                 >
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-full border border-[#FFA601] flex items-center justify-center bg-[#FFA601]/10 text-[#FFA601]">
-                      <span className="material-symbols-outlined text-2xl">{svc.icon}</span>
-                    </div>
-                    <h2 className="font-numeral-display text-[#FFA601] text-3xl">{t(svc.num)}</h2>
+                  <span className={`font-numeral-display text-xs ${isActive ? "text-[#FFA601]" : "text-on-surface-variant"}`}>
+                    {t(svc.num)}
+                  </span>
+                  <span className={`font-body-md text-sm font-medium whitespace-nowrap ${isActive ? "text-primary" : "text-on-surface-variant"}`}>
+                    {t(svc.title)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+          {/* DESKTOP: vertical tab list */}
+          <div className="hidden md:flex md:col-span-3 flex-col">
+            {CORE_SERVICES.map((svc, idx) => {
+              const isActive = idx === activeService;
+              return (
+                <button
+                  key={svc.id}
+                  type="button"
+                  onClick={() => setActiveService(idx)}
+                  aria-pressed={isActive}
+                  className={`text-left px-5 py-5 rounded-lg flex items-center gap-4 border-l-4 transition-colors duration-200 cursor-pointer ${
+                    isActive ? "bg-brand-tint border-[#FFA601]" : "border-transparent hover:bg-surface-container-low"
+                  }`}
+                >
+                  <span className={`font-numeral-display text-sm ${isActive ? "text-[#FFA601]" : "text-on-surface-variant"}`}>
+                    {t(svc.num)}
+                  </span>
+                  <span className={`font-body-md font-medium ${isActive ? "text-primary" : "text-on-surface-variant"}`}>
+                    {t(svc.title)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* ACTIVE SERVICE PANEL */}
+          <div className="md:col-span-9 min-w-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSvc.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <div className="rounded-xl w-full h-[260px] md:h-[420px] relative overflow-hidden shadow-md border border-outline-variant mb-8">
+                  <img
+                    src={activeSvc.img}
+                    alt={t(activeSvc.title)}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                </div>
+
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-full border border-[#FFA601] flex items-center justify-center bg-[#FFA601]/10 text-[#FFA601]">
+                    <span className="material-symbols-outlined text-2xl">{activeSvc.icon}</span>
                   </div>
-                  <h3 className="font-headline-lg text-primary mb-4">{t(svc.title)}</h3>
-                  <p className="font-body-md text-on-surface-variant leading-relaxed mb-8">{t(svc.desc)}</p>
-                  <ul className="flex flex-col gap-4">
-                    {svc.items.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <span className="material-symbols-outlined text-[#FFA601] text-xl shrink-0 mt-0.5">check_circle</span>
-                        <span className="font-body-md text-primary">{t(item)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className={`rounded-xl md:col-span-6 ${idx % 2 === 0 ? "h-[420px] md:h-[520px]" : "h-[340px] md:h-[420px]"} relative group overflow-hidden shadow-md border border-outline-variant ${svc.reverse ? 'md:col-start-1 order-1 md:order-1' : 'md:col-start-7 order-1 md:order-2'}`}
-                >
-                  <div
-                    className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                    style={{ backgroundImage: `url('${svc.img}')` }}
-                  ></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </motion.div>
-              </div>
-            </section>
-          );
-        })}
-      </div>
+                  <span className="font-numeral-display text-[#FFA601] text-2xl">{t(activeSvc.num)}</span>
+                </div>
+                <h3 className="font-headline-lg text-primary mb-4">{t(activeSvc.title)}</h3>
+                <p className="max-w-[70ch] font-body-md text-on-surface-variant leading-relaxed mb-8">
+                  {t(activeSvc.desc)}
+                </p>
+                <ul className="flex flex-col gap-3 max-w-xl">
+                  {activeSvc.items.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="material-symbols-outlined text-[#FFA601] text-xl shrink-0 mt-0.5">check_circle</span>
+                      <span className="font-body-md text-primary">{t(item)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </section>
 
       {/* SERVICE FLOW / 交易服務流程 (REDESIGNED: ICON + STEP NUMBER + TITLE + DESCRIPTION) */}
       <section className="w-full px-margin-mobile md:px-margin-desktop py-section-gap bg-brand-tint border-b border-outline-variant">
