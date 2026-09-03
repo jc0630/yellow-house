@@ -3,11 +3,12 @@ import { Link } from "wouter";
 import { useLanguage } from "../lib/LanguageContext";
 
 export function Careers() {
-  const { t, lang } = useLanguage();
+  const { t, lang, localePath } = useLanguage();
   const [selectedJob, setSelectedJob] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = lang === "zh" ? "Yellow House - 招募公告" : "Yellow House - Careers";
+    document.title =
+      lang === "zh" ? "Yellow House - 招募公告" : lang === "jp" ? "Yellow House - 採用情報" : "Yellow House - Careers";
   }, [lang]);
 
   const jobs = [
@@ -15,12 +16,16 @@ export function Careers() {
       id: 1,
       typeZh: "全職",
       typeEn: "FULL-TIME",
+      typeJp: "正社員",
       locationZh: "台北市 / 東京都",
       locationEn: "TAIPEI / TOKYO",
+      locationJp: "台北市 ／ 東京都",
       titleZh: "未經驗歡迎！元氣不動產人員募集",
       titleEn: "Real Estate Advisory Specialist (Fresh Graduates & No Experience Welcome)",
+      titleJp: "未経験歓迎！元気な不動産アドバイザー募集",
       descZh: "我們正在尋找充滿熱情、具備強烈企圖心的人才加入我們的銷售與顧問團隊。無需相關經驗，我們提供完整的培訓計畫，幫助您在頂級房地產市場建立專業職涯。",
       descEn: "We are seeking passionate, growth-minded talents to join our prime property advisory team. Comprehensive mentorship provided to fast-track your high-end real estate career.",
+      descJp: "熱意と成長意欲をお持ちの方を、営業・アドバイザーチームの一員としてお迎えします。未経験の方も歓迎。充実した研修制度で、ハイエンド不動産業界でのキャリア構築をサポートします。",
       requirementsZh: [
         "對建築美學與不動產投資有高度興趣與熱忱",
         "具備良好的人際溝通與團隊協作能力",
@@ -32,18 +37,28 @@ export function Careers() {
         "Strong interpersonal presentation and client empathy skills",
         "Bilingual proficiency in Chinese & English (Japanese is an advantage)",
         "Self-starter with commitment to professional excellence"
+      ],
+      requirementsJp: [
+        "建築美学や不動産投資への高い関心と熱意をお持ちの方",
+        "良好な対人コミュニケーション能力とチームワーク",
+        "中国語・英語のバイリンガル（日本語対応可能な方は尚可）",
+        "積極的で、継続的な学習意欲をお持ちの方"
       ]
     },
     {
       id: 2,
       typeZh: "全職",
       typeEn: "FULL-TIME",
+      typeJp: "正社員",
       locationZh: "東京都港區",
       locationEn: "TOKYO, MINATO-KU",
+      locationJp: "東京都港区",
       titleZh: "資深豪宅資產顧問 (需具備宅建士執照)",
       titleEn: "Senior Luxury Property Advisor (Licensed Real Estate Specialist)",
+      titleJp: "シニア高級不動産アドバイザー（宅地建物取引士資格必須）",
       descZh: "專門負責億元級以上豪宅與整棟收益型物業之買賣媒合，深入對接全球高淨值客戶與家族辦公室。",
       descEn: "Leading benchmark transactions in ultra-prime residential and multi-family commercial assets for high-net-worth families.",
+      descJp: "億単位の高級レジデンス及び一棟収益物件の売買仲介を専門とし、世界各国の富裕層のお客様やファミリーオフィスとの取引を担当していただきます。",
       requirementsZh: [
         "具備日本宅地建物取引士執照",
         "3年以上日本不動產實務經紀經驗",
@@ -53,6 +68,11 @@ export function Careers() {
         "Licensed Japanese Real Estate Broker (宅地建物取引士)",
         "3+ years proven brokerage track record in prime Tokyo districts",
         "Deep familiarity with cross-border financing and tax structuring"
+      ],
+      requirementsJp: [
+        "宅地建物取引士資格をお持ちの方",
+        "日本国内での不動産仲介実務経験3年以上",
+        "国際的な資金移動及び税務手続きに精通していること"
       ]
     }
   ];
@@ -104,26 +124,26 @@ export function Careers() {
             >
               <div className="flex flex-wrap items-center gap-4 mb-4">
                 <span className="rounded-full bg-primary text-white text-xs px-3 py-1 font-label-caps tracking-widest">
-                  {lang === "zh" ? job.typeZh : job.typeEn}
+                  {lang === "zh" ? job.typeZh : lang === "jp" ? job.typeJp : job.typeEn}
                 </span>
                 <span className="text-on-surface-variant text-xs font-label-caps tracking-widest">
-                  {lang === "zh" ? job.locationZh : job.locationEn}
+                  {lang === "zh" ? job.locationZh : lang === "jp" ? job.locationJp : job.locationEn}
                 </span>
               </div>
               <h3 className="font-headline-lg text-primary mb-4">
-                {lang === "zh" ? job.titleZh : job.titleEn}
+                {lang === "zh" ? job.titleZh : lang === "jp" ? job.titleJp : job.titleEn}
               </h3>
               <p className="font-body-md text-on-surface-variant mb-6 max-w-3xl leading-relaxed">
-                {lang === "zh" ? job.descZh : job.descEn}
+                {lang === "zh" ? job.descZh : lang === "jp" ? job.descJp : job.descEn}
               </p>
 
               {/* Requirements */}
               <div className="mb-8 pt-4 border-t border-outline-variant">
                 <h4 className="font-label-caps text-primary text-xs mb-3 tracking-widest uppercase">
-                  {lang === "zh" ? "條件需求 / REQUIREMENTS" : "REQUIREMENTS"}
+                  {lang === "zh" ? "條件需求 / REQUIREMENTS" : lang === "jp" ? "応募条件 / REQUIREMENTS" : "REQUIREMENTS"}
                 </h4>
                 <ul className="space-y-2 font-body-md text-on-surface-variant">
-                  {(lang === "zh" ? job.requirementsZh : job.requirementsEn).map((req, rIdx) => (
+                  {(lang === "zh" ? job.requirementsZh : lang === "jp" ? job.requirementsJp : job.requirementsEn).map((req, rIdx) => (
                     <li key={rIdx} className="flex items-start gap-3">
                       <span className="w-1.5 h-1.5 bg-[#FFA601] rounded-full mt-2 flex-shrink-0"></span>
                       <span>{req}</span>
@@ -134,7 +154,7 @@ export function Careers() {
 
               <div className="flex items-center gap-4">
                 <Link
-                  href="/contact"
+                  href={localePath("/contact")}
                   className="rounded-lg px-8 py-3 bg-[#FFA601] text-primary font-label-caps text-label-caps font-bold hover:bg-primary hover:text-white transition-colors duration-300 uppercase tracking-widest inline-block"
                 >
                   {t("careers.join.btn")}
@@ -143,16 +163,22 @@ export function Careers() {
                   onClick={() => setSelectedJob(selectedJob === job.id ? null : job.id)}
                   className="rounded-lg px-6 py-3 border border-primary text-primary font-label-caps text-label-caps hover:bg-surface-container transition-colors uppercase tracking-widest cursor-pointer"
                 >
-                  {selectedJob === job.id ? (lang === "zh" ? "收起說明" : "LESS INFO") : (lang === "zh" ? "查看詳情" : "DETAILS")}
+                  {selectedJob === job.id
+                    ? lang === "zh" ? "收起說明" : lang === "jp" ? "閉じる" : "LESS INFO"
+                    : lang === "zh" ? "查看詳情" : lang === "jp" ? "詳細を見る" : "DETAILS"}
                 </button>
               </div>
 
               {selectedJob === job.id && (
                 <div className="mt-6 p-6 bg-surface-container rounded-lg font-body-md text-on-surface animate-in fade-in duration-300">
-                  <h5 className="font-bold mb-2">{lang === "zh" ? "福利與支援計畫" : "Benefits & Support System"}</h5>
+                  <h5 className="font-bold mb-2">
+                    {lang === "zh" ? "福利與支援計畫" : lang === "jp" ? "福利厚生・サポート制度" : "Benefits & Support System"}
+                  </h5>
                   <p className="text-on-surface-variant leading-relaxed">
                     {lang === "zh"
                       ? "• 提供日本留學/打工度假簽證轉工作簽證輔導\n• 高額業績獎金制度與透明晉升管道\n• 定期舉辦日本建築考察與大師講座"
+                      : lang === "jp"
+                      ? "• 留学・ワーキングホリデービザから就労ビザへの切替サポート\n• 充実したインセンティブ制度と透明性の高い昇進制度\n• 定期的な建築視察及び専門家講演会の開催"
                       : "• Visa sponsorship support for eligible candidates\n• Competitive incentive model and transparent career progression\n• Regular architectural field excursions and masterclasses"}
                   </p>
                 </div>

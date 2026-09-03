@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLanguage } from "../lib/LanguageContext";
 import { motion } from "motion/react";
+import { SocialLinks } from "../components/SocialLinks";
+import { SOCIAL_LINKS } from "../lib/socialLinks";
+import { pickLang } from "../lib/utils";
 
 export function Contact() {
   const { t, lang } = useLanguage();
@@ -16,9 +19,12 @@ export function Contact() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    document.title = lang === "zh" 
-      ? "Yellow House - 聯絡我們 | 株式会社イエローハウスカンパニー" 
-      : "Yellow House - Contact | Yellow House Company Inc.";
+    document.title = pickLang(
+      lang,
+      "Yellow House - 聯絡我們 | 株式会社イエローハウスカンパニー",
+      "Yellow House - Contact | Yellow House Company Inc.",
+      "Yellow House - お問い合わせ | 株式会社イエローハウスカンパニー"
+    );
   }, [lang]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -89,15 +95,18 @@ export function Contact() {
                 </div>
                 <h3 className="font-headline-lg text-primary">{t("contact.form.success")}</h3>
                 <p className="font-body-md text-on-surface-variant max-w-md">
-                  {lang === "zh"
-                    ? "感謝您的填寫。株式会社イエローハウスカンパニー 不動產顧問已收到您的諮詢，將儘速透過 Email 與您聯繫。"
-                    : "Thank you for reaching out. Yellow House Company advisory team has received your message and will respond via email shortly."}
+                  {pickLang(
+                    lang,
+                    "感謝您的填寫。株式会社イエローハウスカンパニー 不動產顧問已收到您的諮詢，將儘速透過 Email 與您聯繫。",
+                    "Thank you for reaching out. Yellow House Company advisory team has received your message and will respond via email shortly.",
+                    "お問い合わせいただき誠にありがとうございます。株式会社イエローハウスカンパニーの担当者が内容を確認の上、追ってメールにてご連絡いたします。"
+                  )}
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
                   className="rounded-lg mt-4 px-8 py-3 border border-primary text-primary font-label-caps hover:bg-primary hover:text-white transition-colors"
                 >
-                  {lang === "zh" ? "填寫另一則詢問" : "SUBMIT ANOTHER INQUIRY"}
+                  {pickLang(lang, "填寫另一則詢問", "SUBMIT ANOTHER INQUIRY", "別の問い合わせを送る")}
                 </button>
               </div>
             ) : (
@@ -188,7 +197,12 @@ export function Contact() {
                     rows={5}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder={lang === "zh" ? "請描述您的置產需求、諮詢事項或具體目標..." : "Please describe your property objectives, inquiry topics, or specific goals..."}
+                    placeholder={pickLang(
+                      lang,
+                      "請描述您的置產需求、諮詢事項或具體目標...",
+                      "Please describe your property objectives, inquiry topics, or specific goals...",
+                      "ご希望の物件条件やご相談内容、具体的なご要望をご記入ください..."
+                    )}
                     className="w-full p-4 border border-outline-variant bg-surface focus:border-primary focus:outline-none font-body-md text-primary transition-colors resize-none"
                   ></textarea>
                 </div>
@@ -284,6 +298,14 @@ export function Contact() {
               <p className="font-body-md italic text-white/90 leading-relaxed">
                 {t("contact.quote")}
               </p>
+              {SOCIAL_LINKS.some((s) => s.url) && (
+                <div className="mt-6 pt-6 border-t border-white/15 flex flex-col gap-3">
+                  <span className="font-label-caps text-[11px] text-white/60 uppercase tracking-widest">
+                    {lang === "zh" ? "社群媒體" : lang === "jp" ? "ソーシャルメディア" : "Social Media"}
+                  </span>
+                  <SocialLinks />
+                </div>
+              )}
             </div>
           </motion.div>
         </div>

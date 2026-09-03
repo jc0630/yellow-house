@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { CURRENCIES, useCurrency } from "../lib/CurrencyContext";
+import { useLanguage, type Language } from "../lib/LanguageContext";
 
-export function CurrencySelector({ className = "" }: { className?: string }) {
-  const { currency, setCurrency } = useCurrency();
+const LANGUAGES: { code: Language; label: string }[] = [
+  { code: "zh", label: "中文" },
+  { code: "en", label: "English" },
+  { code: "jp", label: "日本語" },
+];
+
+export function LanguageSwitcher({ className = "" }: { className?: string }) {
+  const { lang, setLang } = useLanguage();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -21,6 +27,8 @@ export function CurrencySelector({ className = "" }: { className?: string }) {
     };
   }, []);
 
+  const current = LANGUAGES.find((l) => l.code === lang) ?? LANGUAGES[0];
+
   return (
     <div ref={rootRef} className={`relative ${className}`}>
       <button
@@ -28,10 +36,10 @@ export function CurrencySelector({ className = "" }: { className?: string }) {
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label="Currency"
+        aria-label="Language"
         className="flex items-center justify-center gap-1 min-h-[44px] px-2 font-label-caps text-label-caps text-white/80 hover:text-white transition-colors cursor-pointer"
       >
-        {currency}
+        {current.label}
         <span className={`material-symbols-outlined text-sm transition-transform duration-200 ${open ? "rotate-180" : ""}`}>
           expand_more
         </span>
@@ -40,24 +48,24 @@ export function CurrencySelector({ className = "" }: { className?: string }) {
       {open && (
         <ul
           role="listbox"
-          aria-label="Currency"
-          className="absolute right-0 mt-2 w-40 rounded-lg border border-outline-variant bg-surface-container-lowest shadow-lg py-1 z-50"
+          aria-label="Language"
+          className="absolute right-0 mt-2 w-36 rounded-lg border border-outline-variant bg-surface-container-lowest shadow-lg py-1 z-50"
         >
-          {CURRENCIES.map((c) => (
-            <li key={c.code} role="option" aria-selected={c.code === currency}>
+          {LANGUAGES.map((l) => (
+            <li key={l.code} role="option" aria-selected={l.code === lang}>
               <button
                 type="button"
                 onClick={() => {
-                  setCurrency(c.code);
+                  setLang(l.code);
                   setOpen(false);
                 }}
                 className={`w-full text-left px-4 py-2.5 min-h-[44px] font-body-md text-sm transition-colors cursor-pointer ${
-                  c.code === currency
+                  l.code === lang
                     ? "bg-brand-tint text-primary font-semibold"
                     : "text-primary hover:bg-surface-container-low"
                 }`}
               >
-                {c.label}
+                {l.label}
               </button>
             </li>
           ))}

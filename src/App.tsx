@@ -4,6 +4,8 @@ import { MotionConfig } from "motion/react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { BackToTop } from "./components/BackToTop";
+import { FloatingSocial } from "./components/FloatingSocial";
+import { SEOManager } from "./components/SEOManager";
 import { Home } from "./pages/Home";
 import { Services } from "./pages/Services";
 import { Company } from "./pages/Company";
@@ -35,23 +37,25 @@ export default function App() {
         <CurrencyProvider>
           <div className="flex flex-col min-h-screen">
             <ScrollToTop />
+            <SEOManager />
             <Header />
             <main className="flex-grow">
               <Switch>
-                <Route path="/" component={Home} />
-                <Route path="/services" component={Services} />
-                <Route path="/company" component={Company} />
-                <Route path="/cases/:slug" component={CaseDetail} />
-                <Route path="/cases" component={Cases} />
-                <Route path="/news/:slug" component={NewsDetail} />
-                <Route path="/news" component={News} />
-                <Route path="/careers" component={Careers} />
-                <Route path="/contact" component={Contact} />
-                {/* Fallback route to Home */}
+                <Route path="/:locale/services" component={Services} />
+                <Route path="/:locale/company" component={Company} />
+                <Route path="/:locale/cases/:slug" component={CaseDetail} />
+                <Route path="/:locale/cases" component={Cases} />
+                <Route path="/:locale/news/:slug" component={NewsDetail} />
+                <Route path="/:locale/news" component={News} />
+                <Route path="/:locale/careers" component={Careers} />
+                <Route path="/:locale/contact" component={Contact} />
+                <Route path="/:locale" component={Home} />
+                {/* Bare/unknown paths are redirected to a locale-prefixed URL by LanguageProvider */}
                 <Route component={Home} />
               </Switch>
             </main>
             <Footer />
+            <FloatingSocial />
             <BackToTop />
           </div>
         </CurrencyProvider>

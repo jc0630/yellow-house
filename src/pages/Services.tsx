@@ -53,12 +53,13 @@ const CORE_SERVICES = [
 ];
 
 export function Services() {
-  const { t, lang } = useLanguage();
+  const { t, lang, localePath } = useLanguage();
   const [activeService, setActiveService] = useState(0);
   const activeSvc = CORE_SERVICES[activeService];
 
   useEffect(() => {
-    document.title = lang === "zh" ? "Yellow House - 服務項目" : "Yellow House - Services";
+    document.title =
+      lang === "zh" ? "Yellow House - 服務項目" : lang === "jp" ? "Yellow House - サービス内容" : "Yellow House - Services";
   }, [lang]);
 
   const acquisitionSteps = lang === "zh" ? [
@@ -69,6 +70,14 @@ export function Services() {
     { title: "重要事項說明與簽約", desc: "由專業宅地建物取引士進行詳盡的產權及法規說明，確認無誤後簽署買賣契約。" },
     { title: "貸款協助與資金規劃", desc: "協助外籍人士對接合適之金融機構辦理貸款，並規劃跨國匯款流程。" },
     { title: "交屋結算與產權移轉", desc: "會同司法書士辦理尾款結算及所有權移轉登記，正式交付鑰匙與產權文件。" },
+  ] : lang === "jp" ? [
+    { title: "初回相談とご要望の確認", desc: "ご購入の目的、ご予算、具体的なご希望を丁寧にヒアリングし、後続の物件選定の土台を構築します。" },
+    { title: "物件のご提案と絞り込み", desc: "未公開物件を含む厳選リストをご提供し、それぞれのメリット・デメリットを分析いたします。" },
+    { title: "内見と周辺環境の確認", desc: "専任担当が同行し、物件の実際の状態や周辺環境、建物の構造品質を確認します。" },
+    { title: "価格交渉と条件調整", desc: "買主様の代理として売主様と価格及び取引条件を交渉し、お客様の利益を最大化します。" },
+    { title: "重要事項説明とご契約", desc: "専門の宅地建物取引士が権利関係及び法令に関する詳細な説明を行い、ご納得いただいた上でご契約を締結します。" },
+    { title: "融資サポートと資金計画", desc: "海外のお客様に適した金融機関との連携を支援し、国際送金の手続きを計画します。" },
+    { title: "決済と所有権移転", desc: "司法書士と連携して残代金の決済及び所有権移転登記を行い、鍵と権利書類を正式にお引き渡しします。" },
   ] : [
     { title: "Initial Consultation & Goal Alignment", desc: "Deep dive into your purchase purpose, budget structure, and timeline to form a strategic baseline." },
     { title: "Curated Proposal & Off-Market Sourcing", desc: "Shortlist prime and exclusive off-market properties with exhaustive comparative analysis." },
@@ -107,6 +116,35 @@ export function Services() {
       title: "結算階段",
       desc: "司法書士共同會審完成尾款清算、稅費繳交與所有權移轉登記。",
       items: ["支付尾款與各項稅費", "辦理登記手續", "房屋點交與鑰匙交付"]
+    },
+  ] : lang === "jp" ? [
+    {
+      phase: "PHASE 01",
+      icon: "account_balance_wallet",
+      title: "準備段階",
+      desc: "資金計画と書類確認を行い、取引資格と国際送金をスムーズに整えます。",
+      items: ["資金証明のご用意", "パスポート及び本人確認書類", "印鑑証明の取得"]
+    },
+    {
+      phase: "PHASE 02",
+      icon: "description",
+      title: "実行段階",
+      desc: "正式な買付証明書を発行し、買主様の代理として価格交渉及び契約スケジュールを調整します。",
+      items: ["買付証明書の提出", "売主様の承諾と条件合意", "契約日程の調整"]
+    },
+    {
+      phase: "PHASE 03",
+      icon: "draw",
+      title: "契約段階",
+      desc: "宅地建物取引士による重要事項説明と契約締結を行い、法的な権利関係を確実にします。",
+      items: ["手付金のお支払い（物件価格の5〜10%）", "売買契約書へのご署名", "印紙税の貼付"]
+    },
+    {
+      phase: "PHASE 04",
+      icon: "key",
+      title: "決済段階",
+      desc: "司法書士立会いのもと残代金の決済、諸費用のお支払い、所有権移転登記を行います。",
+      items: ["残代金及び諸費用のお支払い", "登記手続き", "鍵の引き渡し"]
     },
   ] : [
     {
@@ -183,15 +221,18 @@ export function Services() {
 
         {/* MOBILE: horizontal-scroll tabs (body stays non-scrolling) */}
         <div className="md:hidden -mx-5 px-5 mb-8 overflow-x-auto no-scrollbar">
-          <div className="flex gap-3 w-max">
+          <div role="tablist" aria-label={t("home.services.title")} className="flex gap-3 w-max">
             {CORE_SERVICES.map((svc, idx) => {
               const isActive = idx === activeService;
               return (
                 <button
                   key={svc.id}
                   type="button"
+                  role="tab"
+                  id={`services-tab-mobile-${svc.id}`}
+                  aria-selected={isActive}
+                  aria-controls="services-tabpanel"
                   onClick={() => setActiveService(idx)}
-                  aria-pressed={isActive}
                   className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-lg border transition-colors duration-200 ${
                     isActive
                       ? "bg-brand-tint border-[#FFA601]"
@@ -212,15 +253,18 @@ export function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
           {/* DESKTOP: vertical tab list */}
-          <div className="hidden md:flex md:col-span-3 flex-col">
+          <div role="tablist" aria-label={t("home.services.title")} className="hidden md:flex md:col-span-3 flex-col">
             {CORE_SERVICES.map((svc, idx) => {
               const isActive = idx === activeService;
               return (
                 <button
                   key={svc.id}
                   type="button"
+                  role="tab"
+                  id={`services-tab-desktop-${svc.id}`}
+                  aria-selected={isActive}
+                  aria-controls="services-tabpanel"
                   onClick={() => setActiveService(idx)}
-                  aria-pressed={isActive}
                   className={`text-left px-5 py-5 rounded-lg flex items-center gap-4 border-l-4 transition-colors duration-200 cursor-pointer ${
                     isActive ? "bg-brand-tint border-[#FFA601]" : "border-transparent hover:bg-surface-container-low"
                   }`}
@@ -241,6 +285,10 @@ export function Services() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeSvc.id}
+                id="services-tabpanel"
+                role="tabpanel"
+                aria-label={t(activeSvc.title)}
+                tabIndex={0}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -296,7 +344,11 @@ export function Services() {
             </h2>
           </div>
           <p className="font-body-md text-on-surface-variant max-w-md">
-            {lang === "zh" ? "從前期準備、條件斡旋到尾款登記，嚴格把關每一階段法令與資金安全。" : "Guiding you with institutional precision from due diligence to final title registration."}
+            {lang === "zh"
+              ? "從前期準備、條件斡旋到尾款登記，嚴格把關每一階段法令與資金安全。"
+              : lang === "jp"
+              ? "事前準備から条件交渉、最終決済まで、各段階の法令遵守と資金の安全性を徹底管理します。"
+              : "Guiding you with institutional precision from due diligence to final title registration."}
           </p>
         </motion.div>
 
@@ -342,7 +394,7 @@ export function Services() {
               {/* Bullet Points */}
               <div className="pt-4 border-t border-outline-variant/40">
                 <span className="font-label-caps text-[11px] text-on-surface-variant uppercase tracking-wider block mb-2">
-                  {lang === "zh" ? "核心執行事項" : "Key Deliverables"}
+                  {lang === "zh" ? "核心執行事項" : lang === "jp" ? "主要な実施事項" : "Key Deliverables"}
                 </span>
                 <ul className="flex flex-col gap-2">
                   {item.items.map((li, j) => (
@@ -487,7 +539,7 @@ export function Services() {
           {t("services.cta.title")}
         </h2>
         <Link
-          href="/contact"
+          href={localePath("/contact")}
           className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("services.cta.btn")}</span>

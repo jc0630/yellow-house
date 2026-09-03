@@ -5,10 +5,11 @@ import { useLanguage } from "../lib/LanguageContext";
 import { CASES_DATA } from "../data/casesData";
 import { ArrowChip } from "../components/ArrowChip";
 import { PriceBlock } from "../components/PriceBlock";
+import { pickLang } from "../lib/utils";
 
 export function CaseDetail() {
-  const [, params] = useRoute<{ slug: string }>("/cases/:slug");
-  const { lang, t } = useLanguage();
+  const [, params] = useRoute<{ slug: string }>("/:locale/cases/:slug");
+  const { lang, t, localePath } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   const slug = params?.slug;
@@ -16,13 +17,13 @@ export function CaseDetail() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    const title = lang === "zh" ? item.titleZh : item.titleEn;
+    const title = pickLang(lang, item.titleZh, item.titleEn, item.titleJp);
     document.title = `${title} | Yellow House`;
   }, [slug, lang, item]);
 
   const handleShare = async () => {
     const shareUrl = window.location.href;
-    const shareTitle = lang === "zh" ? item.titleZh : item.titleEn;
+    const shareTitle = pickLang(lang, item.titleZh, item.titleEn, item.titleJp);
 
     if (navigator.share) {
       try {
@@ -45,10 +46,10 @@ export function CaseDetail() {
     }
   };
 
-  const title = lang === "zh" ? item.titleZh : item.titleEn;
-  const category = lang === "zh" ? item.categoryZh : item.categoryEn;
-  const location = lang === "zh" ? item.locationZh : item.locationEn;
-  const details = lang === "zh" ? item.detailsZh : item.detailsEn;
+  const title = pickLang(lang, item.titleZh, item.titleEn, item.titleJp);
+  const category = pickLang(lang, item.categoryZh, item.categoryEn, item.categoryJp);
+  const location = pickLang(lang, item.locationZh, item.locationEn, item.locationJp);
+  const details = pickLang(lang, item.detailsZh, item.detailsEn, item.detailsJp);
 
   return (
     <div className="flex flex-col w-full relative">
@@ -94,11 +95,11 @@ export function CaseDetail() {
           {/* Breadcrumb / Top Back */}
           <div className="mb-10 pb-6 border-b border-outline-variant flex items-center justify-between">
             <Link
-              href="/cases"
+              href={localePath("/cases")}
               className="font-label-caps text-xs text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2 uppercase tracking-wider group"
             >
               <span className="material-symbols-outlined text-sm transform group-hover:-translate-x-1 transition-transform">arrow_back</span>
-              {lang === "zh" ? "返回實績案例" : "Back to Case Studies"}
+              {pickLang(lang, "返回實績案例", "Back to Case Studies", "実績紹介に戻る")}
             </Link>
 
             <button
@@ -106,7 +107,7 @@ export function CaseDetail() {
               className="rounded-md px-4 py-2 border border-outline-variant hover:border-[#FFA601] bg-surface-container-lowest font-label-caps text-xs text-primary flex items-center gap-2 uppercase tracking-wider transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-sm text-[#FFA601]">share</span>
-              <span>{copied ? (lang === "zh" ? "已複製連結！" : "Link Copied!") : (lang === "zh" ? "分享文章" : "Share")}</span>
+              <span>{copied ? pickLang(lang, "已複製連結！", "Link Copied!", "リンクをコピーしました！") : pickLang(lang, "分享文章", "Share", "シェア")}</span>
             </button>
           </div>
 
@@ -123,7 +124,7 @@ export function CaseDetail() {
             <div className="flex flex-col gap-4">
               <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest flex items-center gap-2">
                 <span className="w-4 h-px bg-[#FFA601]"></span>
-                {lang === "zh" ? "專案概述" : "PROJECT OVERVIEW"}
+                {pickLang(lang, "專案概述", "PROJECT OVERVIEW", "案件概要")}
               </span>
               <p className="max-w-[70ch] font-body-lg text-primary text-lg md:text-xl leading-relaxed">
                 {details.overview}
@@ -142,7 +143,7 @@ export function CaseDetail() {
             {/* Key Highlights */}
             <div className="rounded-r-xl p-8 bg-brand-tint border-l-4 border-[#FFA601] flex flex-col gap-6">
               <h3 className="font-headline-md text-xl text-primary font-medium">
-                {lang === "zh" ? "關鍵規格與配置重點" : "Key Project Specifications & Highlights"}
+                {pickLang(lang, "關鍵規格與配置重點", "Key Project Specifications & Highlights", "主要な仕様・特長")}
               </h3>
               <ul className="flex flex-col gap-3">
                 {details.highlights.map((point, idx) => (
@@ -158,10 +159,15 @@ export function CaseDetail() {
             <div className="flex flex-col gap-4">
               <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest flex items-center gap-2">
                 <span className="w-4 h-px bg-[#FFA601]"></span>
-                {lang === "zh" ? "執行策略與專業視角" : "STRATEGY & EXECUTION"}
+                {pickLang(lang, "執行策略與專業視角", "STRATEGY & EXECUTION", "実行戦略とプロの視点")}
               </span>
               <h3 className="font-headline-md text-2xl text-primary font-medium">
-                {lang === "zh" ? "從實際持有者視角的盡職調查與談判" : "Due Diligence & Execution with an Owner's Mindset"}
+                {pickLang(
+                  lang,
+                  "從實際持有者視角的盡職調查與談判",
+                  "Due Diligence & Execution with an Owner's Mindset",
+                  "オーナー目線によるデューデリジェンスと交渉"
+                )}
               </h3>
               <p className="max-w-[70ch] font-body-md text-on-surface-variant text-base md:text-lg leading-relaxed">
                 {details.strategy}
@@ -171,7 +177,7 @@ export function CaseDetail() {
             {/* Outcome */}
             <div className="rounded-xl flex flex-col gap-4 p-8 bg-surface-container-lowest border border-outline-variant">
               <span className="font-label-caps text-xs text-primary uppercase tracking-widest">
-                {lang === "zh" ? "成效與資產價值" : "PROJECT OUTCOME"}
+                {pickLang(lang, "成效與資產價值", "PROJECT OUTCOME", "成果と資産価値")}
               </span>
               <p className="font-body-md text-primary text-base leading-relaxed font-medium">
                 {details.outcome}
@@ -181,11 +187,11 @@ export function CaseDetail() {
             {/* Bottom Actions: Share + Back */}
             <div className="pt-8 border-t border-outline-variant flex flex-col sm:flex-row items-center justify-between gap-4">
               <Link
-                href="/cases"
+                href={localePath("/cases")}
                 className="rounded-lg w-full sm:w-auto px-8 py-4 bg-primary text-white hover:bg-primary/90 font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
               >
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
-                <span>{lang === "zh" ? "返回全部案例" : "Back to All Cases"}</span>
+                <span>{pickLang(lang, "返回全部案例", "Back to All Cases", "すべての実績に戻る")}</span>
               </Link>
 
               <button
@@ -193,7 +199,7 @@ export function CaseDetail() {
                 className="rounded-lg w-full sm:w-auto px-8 py-4 border border-primary text-primary hover:bg-primary hover:text-white font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-sm">share</span>
-                <span>{copied ? (lang === "zh" ? "已複製連結！" : "Link Copied!") : (lang === "zh" ? "分享此專案" : "Share Case Study")}</span>
+                <span>{copied ? pickLang(lang, "已複製連結！", "Link Copied!", "リンクをコピーしました！") : pickLang(lang, "分享此專案", "Share Case Study", "この実績をシェア")}</span>
               </button>
             </div>
           </motion.div>
@@ -206,7 +212,7 @@ export function CaseDetail() {
           {t("cta.title")}
         </h2>
         <Link
-          href="/contact"
+          href={localePath("/contact")}
           className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cta.button")}</span>

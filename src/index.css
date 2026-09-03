@@ -56,15 +56,15 @@
   --spacing-section-gap: 120px;
   --spacing-margin-desktop: 64px;
 
-  --font-display-lg: "Noto Sans", "Noto Sans TC", sans-serif;
-  --font-headline-lg: "Noto Sans", "Noto Sans TC", sans-serif;
-  --font-body-lg: "Noto Sans", "Noto Sans TC", sans-serif;
-  --font-headline-lg-mobile: "Noto Sans", "Noto Sans TC", sans-serif;
-  --font-body-md: "Noto Sans", "Noto Sans TC", sans-serif;
-  --font-label-caps: "Noto Sans", "Noto Sans TC", sans-serif;
-  --font-display-lg-mobile: "Noto Sans", "Noto Sans TC", sans-serif;
-  --font-numeral-display: "Noto Sans", "Noto Sans TC", sans-serif;
-  --font-headline-md: "Noto Sans", "Noto Sans TC", sans-serif;
+  --font-display-lg: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
+  --font-headline-lg: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
+  --font-body-lg: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
+  --font-headline-lg-mobile: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
+  --font-body-md: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
+  --font-label-caps: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
+  --font-display-lg-mobile: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
+  --font-numeral-display: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
+  --font-headline-md: "Noto Sans", "Noto Sans JP", "Noto Sans TC", sans-serif;
 
   --color-brand-tint: #fff6e9;
   --color-brand-tint-deep: #fdecd2;

@@ -1,11 +1,16 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect } from "react";
+import { useLocation } from "wouter";
 
-export type Language = "zh" | "en";
+export type Language = "zh" | "en" | "jp";
 
 interface LanguageContextType {
   lang: Language;
   setLang: (lang: Language) => void;
   t: (key: string) => string;
+  /** Prefixes an app-relative path (e.g. "/services") with the current locale. */
+  localePath: (path: string) => string;
+  /** BCP-47 code for <html lang>/hreflang — NOT the same as the "jp" URL segment. */
+  htmlLang: string;
 }
 
 const translations: Record<Language, Record<string, string>> = {
@@ -35,6 +40,7 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.privacy": "隱私權政策",
     "footer.terms": "服務條款",
     "footer.map_label": "神奈川 本社",
+    "footer.social": "社群媒體",
 
     // Home
     "home.title": "Yellow House - 日本在地的實務不動產夥伴 | 株式会社イエローハウスカンパニー",
@@ -325,7 +331,7 @@ const translations: Record<Language, Record<string, string>> = {
     "currency.updated_cached": "匯率更新時間（離線快取）",
     "currency.unavailable": "匯率暫時無法取得，僅顯示日圓價格",
     "currency.approx": "約",
-    "currency.disclaimer": "美元金額為依最新可取得匯率換算之參考值，實際金額可能因匯率變動而異。",
+    "currency.disclaimer": "外幣金額為依最新可取得匯率換算之參考值，實際金額可能因匯率變動而異。",
     "price.label": "物件價格"
   },
   en: {
@@ -354,6 +360,7 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.privacy": "PRIVACY POLICY",
     "footer.terms": "TERMS OF SERVICE",
     "footer.map_label": "Kanagawa HQ",
+    "footer.social": "Social Media",
 
     // Home
     "home.title": "Yellow House - Your Practical Real Estate Partner in Japan | Yellow House Company Inc.",
@@ -667,34 +674,443 @@ const translations: Record<Language, Record<string, string>> = {
     "currency.updated_cached": "Exchange rate updated (cached offline)",
     "currency.unavailable": "Exchange rate temporarily unavailable — showing JPY only",
     "currency.approx": "Approx.",
-    "currency.disclaimer": "USD amounts are approximate conversions based on the latest available exchange rate and may vary with market fluctuations.",
+    "currency.disclaimer": "Amounts in other currencies are approximate conversions based on the latest available exchange rate and may vary with market fluctuations.",
     "price.label": "PROPERTY PRICE"
+  },
+  jp: {
+    // Nav
+    "nav.home": "ホーム",
+    "nav.services": "サービス",
+    "nav.company": "会社案内",
+    "nav.cases": "実績紹介",
+    "nav.news": "ニュース",
+    "nav.careers": "採用情報",
+    "nav.contact": "お問い合わせ",
+
+    // Common CTA Banner
+    "cta.title": "日本での不動産取引を、私たちと共に",
+    "cta.button": "無料相談を予約する",
+
+    // Footer
+    "footer.desc": "日本国内で宅地建物取引業の正式な免許を取得し、売買仲介から賃貸管理、買取再販、土地開発、注文建築、宿泊施設運営まで、実務に基づいた総合的な不動産サポートを提供しています。",
+    "footer.nav": "サイトマップ",
+    "footer.careers": "採用情報",
+    "footer.location": "所在地",
+    "footer.opps": "募集職種",
+    "footer.culture": "企業文化",
+    "footer.contact_hr": "お問い合わせ",
+    "footer.copyright": "© 2026 株式会社イエローハウスカンパニー（YELLOW HOUSE COMPANY）ALL RIGHTS RESERVED.",
+    "footer.privacy": "プライバシーポリシー",
+    "footer.terms": "利用規約",
+    "footer.map_label": "神奈川本社",
+    "footer.social": "ソーシャルメディア",
+
+    // Home
+    "home.title": "Yellow House - 日本の不動産を実務目線でサポート | 株式会社イエローハウスカンパニー",
+    "home.hero.title_line1": "日本に根差した",
+    "home.hero.title_line2": "不動産実務パートナー",
+    "home.hero.desc": "私たちは物件をご紹介するだけではなく、所有と経営の実態を理解しています。取得、保有、管理、開発、運営から売却まで、15年の実務経験でお客様の的確な判断をサポートします。",
+    "home.hero.consult": "相談を予約する",
+    "home.hero.view_properties": "事業内容を見る",
+    "home.stat.experience_label": "EXPERIENCE",
+    "home.stat.experience_val": "15年の実務経験",
+    "home.stat.certified_label": "CERTIFIED",
+    "home.stat.certified_val": "宅地建物取引業免許取得済み",
+    "home.stat.global_label": "GLOBAL",
+    "home.stat.global_val": "多言語対応サービス",
+    "home.stat.license_label": "LICENSE",
+    "home.stat.license_val": "神奈川県知事（1）第32070号",
+
+    // Home - Focus Areas (06 Overseas Client Focus)
+    "home.focus.tag": "OVERSEAS CLIENT FOCUS",
+    "home.focus.title": "海外のお客様に向けた2つの注力分野",
+    "home.focus.desc": "欧米圏のお客様、そして台湾をはじめとする中華圏の投資家の皆様を主な対象に、物件選びから将来の売却まで、海外オーナー様の不動産取得を一貫してサポートします。",
+    "home.focus1.num": "01",
+    "home.focus1.tag": "PRIME RESIDENTIAL",
+    "home.focus1.title": "東京都心の高級レジデンス\n（1億円以上）",
+    "home.focus1.desc": "建築品質、住環境の快適性、そして資産価値の持続性を兼ね備えた東京都心の高級レジデンスを厳選してご紹介します。",
+    "home.focus1.cta": "レジデンスを見る",
+    "home.focus2.num": "02",
+    "home.focus2.tag": "COMMERCIAL & INCOME",
+    "home.focus2.title": "商業用及び収益不動産への\n投資",
+    "home.focus2.desc": "安定したキャッシュフローと資産価値の向上を求める投資家の皆様に、精緻な収益計算と資産構成のご提案を行います。",
+    "home.focus2.cta": "投資物件を見る",
+
+    // Home - Major Businesses (04 & 05)
+    "home.services.tag": "CORE BUSINESSES",
+    "home.services.title": "主要事業内容",
+    "home.services.desc": "土地から運営まで、取引・管理・価値向上を網羅する豊富な実務経験を有しています。",
+
+    // Business 1
+    "home.biz1.num": "01",
+    "home.biz1.title": "不動産売買仲介",
+    "home.biz1.desc": "居住用不動産、収益不動産、商業用不動産及び土地の売買を仲介します。",
+    "home.biz1.item1": "物件探索及び現地調査",
+    "home.biz1.item2": "価格及び取引条件の交渉",
+    "home.biz1.item3": "契約、引き渡し及び登記手続きの調整",
+
+    // Business 2
+    "home.biz2.num": "02",
+    "home.biz2.title": "賃貸及び物件管理",
+    "home.biz2.desc": "オーナー様の日常管理、入居者募集及び修繕業務をサポートし、安定した収益の維持に努めます。",
+    "home.biz2.item1": "入居者募集及び賃貸借契約管理",
+    "home.biz2.item2": "賃料収受、退去対応及び修繕手配",
+    "home.biz2.item3": "賃貸トラブル対応及び法令遵守",
+
+    // Business 3
+    "home.biz3.num": "03",
+    "home.biz3.title": "不動産買取再販",
+    "home.biz3.desc": "市場動向と活用方法を見極め、物件の価値を高めたうえで再販します。",
+    "home.biz3.item1": "物件の買取及び市場価値の査定",
+    "home.biz3.item2": "リノベーションによる価値向上",
+    "home.biz3.item3": "再ポジショニング及び売却の実行",
+
+    // Business 4
+    "home.biz4.num": "04",
+    "home.biz4.title": "土地開発及び注文建築",
+    "home.biz4.desc": "土地評価、土地活用計画、注文建築及び土地開発における豊富な実績を有しています。",
+    "home.biz4.item1": "用途、建築計画及び将来収益の観点からの土地価値評価",
+    "home.biz4.item2": "土地活用計画及び建築法規の確認",
+    "home.biz4.item3": "注文建築プロジェクトの一貫した企画・実行",
+
+    // Business 5
+    "home.biz5.num": "05",
+    "home.biz5.title": "宿泊施設運営",
+    "home.biz5.desc": "民泊及び宿泊施設の運営を自ら手掛け、物件取得から日常運営まで実務経験を有しています。",
+    "home.biz5.item1": "物件取得及び関連許認可の取得",
+    "home.biz5.item2": "施設設備及び客室仕様の企画",
+    "home.biz5.item3": "日常運営管理及び多言語での宿泊者対応",
+
+    // Home - Perspective (03 & 07)
+    "home.perspective.tag": "OUR PERSPECTIVE",
+    "home.perspective.title": "実際の所有者・運営者の視点に立って",
+    "home.perspective.desc": "私たちの強みは、仲介実務にとどまらず、オーナー、投資家、管理者、開発者、そして運営者としての経験を兼ね備えている点にあります。取引を成立させることよりも、その不動産がお客様の目的に本当に適しているかを重視しています。",
+    "home.perspective.item1_title": "物件そのものの価値",
+    "home.perspective.item1_desc": "立地、建物の状態、権利関係及び市場動向を確認します。",
+    "home.perspective.item2_title": "実際の保有コスト",
+    "home.perspective.item2_desc": "税金、管理費、修繕積立金及び資金調達コストを踏まえて判断します。",
+    "home.perspective.item3_title": "賃貸及び運営リスク",
+    "home.perspective.item3_desc": "入居者の質、空室リスク、収益及び運営の安定性を評価します。",
+    "home.perspective.item4_title": "修繕及び管理上の課題",
+    "home.perspective.item4_desc": "建物の経年劣化、設備及び日常管理の負担を把握します。",
+    "home.perspective.item5_title": "土地活用及び開発",
+    "home.perspective.item5_desc": "用途地域、建築の可能性及び将来性を見極めます。",
+    "home.perspective.item6_title": "売却及び出口戦略",
+    "home.perspective.item6_desc": "取得前の段階から流動性、税務及び将来の買い手を見据えて検討します。",
+
+    // Home - Advisor Profile (02)
+    "home.advisor.tag": "REPRESENTATIVE",
+    "home.advisor.title": "15年の不動産実務、\nすべての工程に自ら携わってきた経験",
+    "home.advisor.name": "黄経祐",
+    "home.advisor.role": "代表者｜オーナー｜不動産投資家",
+    "home.advisor.desc": "日本国内で約15年にわたり不動産実務に携わってきました。物件取得、賃貸管理及び修繕、不動産仲介、注文建築プロジェクト、土地評価、活用計画及び開発、そして宿泊施設の取得・運営まで、あらゆる現場を自ら経験しています。仲介成約の視点だけでなく、実際の保有と経営の結果から物件を見極めます。",
+    "home.advisor.cta": "詳しいプロフィールを見る",
+
+    // Home - Process (06)
+    "home.process.tag": "WORKFLOW",
+    "home.process.title": "6つのステップによる一貫したサービス",
+    "home.process.desc": "日本国内での豊富な実務経験を活かし、物件選びから売却まで、海外のお客様を一貫してサポートします。",
+    "home.process.step1.title": "物件選定",
+    "home.process.step1.desc": "自己居住または投資目的に応じ、実際の保有価値に見合った優良物件を厳選します。",
+    "home.process.step2.title": "調査・デューデリジェンス",
+    "home.process.step2.desc": "立地、建物状況、権利関係及び保有コスト、修繕履歴を詳細に調査します。",
+    "home.process.step3.title": "契約・交渉",
+    "home.process.step3.desc": "価格及び取引条件を専門的に交渉し、明快で法令に準拠した契約内容をご説明します。",
+    "home.process.step4.title": "決済・引き渡し",
+    "home.process.step4.desc": "資金決済、所有権移転登記及び物件の引き渡しなど、法定手続きを調整します。",
+    "home.process.step5.title": "購入後の管理",
+    "home.process.step5.desc": "入居者募集、日常修繕、運営維持及び収支管理まで対応し、海外からの資産保有を安心なものにします。",
+    "home.process.step6.title": "将来の売却",
+    "home.process.step6.desc": "市場流動性及び税務面を事前に見極め、最適なタイミングでの売却をサポートします。",
+    "home.process.cta": "サービス内容を詳しく見る",
+
+    // Services Page
+    "services.title": "Yellow House - サービス内容 | 株式会社イエローハウスカンパニー",
+    "services.banner.tag": "SERVICES",
+    "services.banner.h1": "主要事業及びサービス内容",
+    "services.banner.desc": "取引、管理及び価値向上を網羅する事業を展開しています。取得、保有、管理、開発、運営から売却まで、実務経験に基づきお客様の判断をサポートします。",
+    "services.tag1": "不動産売買仲介",
+    "services.tag2": "賃貸及び物件管理",
+    "services.tag3": "不動産買取再販",
+    "services.tag4": "土地開発及び注文建築",
+    "services.tag5": "宿泊施設運営",
+    "services.tag6": "海外顧客向け不動産コンサルティング",
+    "services.flagA.tag": "海外のお客様への注力分野 I",
+    "services.flagA.box_title": "東京都心の高級レジデンス（1億円以上）",
+    "services.flagA.box_desc": "資産価値の持続性と上質な住環境を求める海外及び国境を越えたお客様を主な対象としています。",
+    "services.flagA.desc": "実際に住まう方の視点であらゆる物件を見極め、周辺環境、学区、施工品質及び将来の流動性まで分析します。物件探しからデューデリジェンス、引き渡し後のサポートまで一貫してご案内します。",
+    "services.flagB.tag": "海外のお客様への注力分野 II",
+    "services.flagB.box_title": "商業用及び収益不動産への投資",
+    "services.flagB.box_desc": "オフィスビル、店舗物件及び集合住宅を対象に、現実的な保有利回りに基づいて評価します。",
+    "services.flagB.desc": "表面利回りだけにとらわれず、税金、管理費、修繕積立金、空室リスク及び将来の出口における流動性まで踏まえた総合的な収支計画をご提示します。",
+    "services.steps.title": "取得から保有までの一貫したフロー",
+    "services.flow.title": "SERVICE FLOW",
+    "services.taxes.title": "関連費用及び税金の概要",
+    "services.taxes.buy_label": "購入時",
+    "services.taxes.buy_val": "仲介手数料／不動産取得税／印紙税／登録免許税／固定資産税・都市計画税の精算",
+    "services.taxes.hold_label": "保有期間中",
+    "services.taxes.hold_val": "固定資産税／都市計画税／管理費／修繕積立金／所得税の申告",
+    "services.taxes.sell_label": "売却時",
+    "services.taxes.sell_val": "譲渡所得税／仲介手数料／登記費用",
+    "services.mgmt.title": "賃貸及び日常管理業務",
+    "services.mgmt.desc": "オーナー様の入居者募集、賃料収受及び修繕対応をサポートします。オーナー及び運営者としての実務経験により、海外にいらっしゃるお客様にも安心して日本の資産を保有いただけます。",
+    "services.mgmt.item1": "入居者募集及び賃貸借契約管理（入居審査を厳格に実施）",
+    "services.mgmt.item2": "賃料収受、海外送金及び収支明細管理",
+    "services.mgmt.item3": "建物経年劣化への対応、設備修繕及び日常管理負担の軽減",
+    "services.mgmt.item4": "賃貸トラブル対応、退去立会い及び原状回復の管理",
+    "services.cta.title": "日本の不動産戦略についてご相談ください",
+    "services.cta.btn": "専門相談を予約する",
+
+    // Company Page (COMPANY INFORMATION 唯一依據)
+    "company.title": "Yellow House - 会社案内 | 株式会社イエローハウスカンパニー",
+    "company.banner.tag": "COMPANY PROFILE",
+    "company.banner.h1": "日本に根差した不動産実務パートナー",
+    "company.banner.desc": "取得、保有、管理、開発、運営から売却まで、実務経験に基づきお客様の的確な判断をサポートします。",
+    "company.rep.tag": "代表者プロフィール",
+    "company.rep.headline": "15年の不動産実務、\nすべての工程に自ら携わってきた経験。",
+    "company.rep.p1": "株式会社イエローハウスカンパニーは、日本国内で宅地建物取引業の正式な免許を取得した不動産会社です。私たちは物件をご紹介するだけでなく、所有と経営の実態を深く理解しています。",
+    "company.rep.p2": "買主、オーナー、投資家及び運営者、それぞれの視点から、物件の価値、コスト及びリスクをお客様と共に見極めます。取引の成立のみを目的とせず、その物件が実際の保有及び経営に適しているかを確認することを大切にしています。",
+    "company.overview.tag": "COMPANY INFORMATION",
+    "company.overview.title": "会社概要",
+    "company.overview.name_label": "会社名",
+    "company.overview.name_val": "株式会社イエローハウスカンパニー（YELLOW HOUSE COMPANY）",
+    "company.overview.rep_label": "代表者",
+    "company.overview.rep_val": "黄経祐（代表取締役｜オーナー｜投資家）",
+    "company.overview.lic_label": "免許番号",
+    "company.overview.lic_val": "神奈川県知事（1）第32070号",
+    "company.overview.biz_label": "主要事業",
+    "company.overview.biz_val1": "不動産売買仲介、賃貸管理、収益不動産の買取再販",
+    "company.overview.biz_val2": "土地開発、注文建築、宿泊施設運営",
+    "company.overview.biz_val3": "海外のお客様向け不動産コンサルティング及び総合サポート",
+    "company.overview.loc_label": "所在地",
+    "company.overview.loc_val": "〒259-1132\n神奈川県伊勢原市桜台1-22-15\nネオハイツ伊勢原112",
+    "company.quote": "「取引の成立のみを目的とせず、\nその物件が実際の保有及び経営に適しているかを確認する。」",
+    "company.quote_desc": "私たちの強みは、実際の所有者としての視点に立っていることです。仲介実務にとどまらず、オーナー、投資家、管理者及び運営者としての経験を活かし、最も実務的な判断材料をご提供します。",
+    "company.visit.tag": "OUR OFFICE",
+    "company.visit.title": "神奈川本社",
+    "company.visit.btn": "Googleマップで見る",
+
+    // Cases Page
+    "cases.title": "Yellow House - 実績紹介",
+    "cases.banner.tag": "PORTFOLIO",
+    "cases.banner.h1": "実績紹介及び厳選プロジェクト",
+    "cases.banner.desc": "高級居住用不動産、収益商業ビル、土地開発及び宿泊施設まで、売買、管理、リノベーション及び運営における豊富な実務実績をご紹介します。",
+    "cases.filter.all": "すべての実績",
+    "cases.filter.res": "居住用・自己居住",
+    "cases.filter.com": "商業用・収益型",
+    "cases.card.view_detail": "詳細を見る",
+    "cases.card.inquire": "この物件について問い合わせる",
+    "cases.c1.tag": "高級レジデンス・東京都港区",
+    "cases.c1.title": "港区 眺望を誇る高層レジデンス",
+    "cases.c1.desc": "東京中心部に位置する高級居住用不動産。優れた建物品質、希少な立地及び充実した物件管理により、海外のお客様に極上の住環境を提供します。",
+    "cases.c1.specs": "専有面積182㎡｜3LDK｜所有権",
+    "cases.c2.tag": "収益商業ビル・東京都渋谷区",
+    "cases.c2.title": "渋谷中心部の収益型商業ビル",
+    "cases.c2.desc": "満室稼働中の中心部商業ビル。安定した長期賃料収入を確保し、収益構造の再編及び管理体制の最適化により堅実な年間利回りを実現しています。",
+    "cases.c2.specs": "一棟RC造6階建｜満室稼働中｜所有権",
+    "cases.c3.tag": "高級レジデンス・東京都渋谷区",
+    "cases.c3.title": "渋谷区 閑静な住宅街の邸宅",
+    "cases.c3.desc": "現代和風建築の美意識と緑豊かな庭園を融合させた高級居住用邸宅。都心の利便性と高いプライバシー性を兼ね備えています。",
+    "cases.c3.specs": "敷地面積210㎡｜建物面積260㎡｜4LDK",
+    "cases.c4.tag": "商業旗艦店舗・東京都中央区",
+    "cases.c4.title": "中央区 商業街区の角地旗艦店舗",
+    "cases.c4.desc": "人通りの多い商業中心地に位置し、優れたブランド訴求力と資産価値の安定性を備え、長期にわたる安定した賃料収入を確保しています。",
+    "cases.c4.specs": "一棟4階建｜商業中心地｜所有権",
+    "cases.c5.tag": "高級レジデンス・東京都港区",
+    "cases.c5.title": "六本木 パノラマビューのペントハウス",
+    "cases.c5.desc": "東京タワー及び都心の街並みを一望する象徴的な邸宅。24時間対応のホテル水準のコンシェルジュサービスと専用駐車場を備えています。",
+    "cases.c5.specs": "専有面積245㎡｜3LDKメゾネット",
+    "cases.c6.tag": "宿泊施設・京都市東山区",
+    "cases.c6.title": "京都 伝統町家を活用した宿泊施設",
+    "cases.c6.desc": "物件を取得し、合法的な宿泊施設として運営計画を立案。百年を超える木造建築の趣を保ちながら、現代的な快適設備と多言語対応の接客体制を導入しています。",
+    "cases.c6.specs": "土地活用計画｜民泊許可取得済み｜運営管理",
+    "cases.c7.tag": "注文建築・神奈川県横浜市",
+    "cases.c7.title": "横浜 港を望む注文建築の邸宅",
+    "cases.c7.desc": "土地取得の評価、建築設計から施工まで一貫してプロデュース。他に代えがたい海の眺望を誇る自己居住用邸宅を実現しました。",
+    "cases.c7.specs": "注文建築プロジェクト｜敷地面積350㎡｜所有権",
+    "cases.c8.tag": "収益マンション・東京都新宿区",
+    "cases.c8.title": "新宿御苑近接の収益型集合住宅",
+    "cases.c8.desc": "新宿御苑の緑地に隣接する優良な収益型マンション。専門的な賃貸管理と定期的な修繕により、年間を通じて高い入居率を維持しています。",
+    "cases.c8.specs": "一棟RC造5階建｜16戸｜賃貸管理中",
+    "cases.c9.tag": "別荘・長野県軽井沢町",
+    "cases.c9.title": "軽井沢 森に佇む四季の別荘",
+    "cases.c9.desc": "樹齢百年を超えるカラマツ林に囲まれた四季を楽しめる別荘。自己利用のほか、不在時には宿泊施設としての運用収益も見込めます。",
+    "cases.c9.specs": "敷地面積850㎡｜温泉引き込み｜4LDK",
+
+    // News Page
+    "news.title": "Yellow House - ニュース | 株式会社イエローハウスカンパニー",
+    "news.banner.tag": "NEWS & UPDATES",
+    "news.banner.h1": "ニュース及び市場動向",
+    "news.banner.desc": "株式会社イエローハウスカンパニーの最新の事業動向、日本の不動産市場に関する洞察及び実務コラムをお届けします。",
+    "news.featured_label": "注目のトピック",
+    "news.featured.date": "2026年3月",
+    "news.featured.tag": "実務コラム",
+    "news.featured.title": "日本に根差した実務パートナー：取得から運営までを見据えた総合的な視点",
+    "news.featured.desc": "私たちは取引の仲介にとどまらず、買主、オーナー、投資家及び運営者という複数の視点から、物件の本質的な価値、保有コスト及び運営リスクを総合的に評価します。",
+    "news.category.title": "カテゴリー",
+    "news.category.all": "すべての記事",
+    "news.category.insights": "市場インサイト",
+    "news.category.market": "実務コラム",
+    "news.category.corp": "会社からのお知らせ",
+    "news.category.media": "メディア掲載",
+    "news.read_more": "記事を読む",
+
+    // Careers Page
+    "careers.title": "Yellow House - 採用情報 | 株式会社イエローハウスカンパニー",
+    "careers.banner.tag": "CAREERS",
+    "careers.banner.h1": "実務のプロフェッショナルチームへ",
+    "careers.banner.desc": "日本の不動産を愛し、誠実さと実務精神を兼ね備えた仲間を求めています。共に国際的なお客様へ最も信頼される不動産サービスを提供しましょう。",
+    "careers.open_positions": "OPEN POSITIONS",
+    "careers.job1.type": "正社員",
+    "careers.job1.location": "日本（神奈川／東京）",
+    "careers.job1.title": "不動産コンサルタント・仲介担当（バイリンガル歓迎）",
+    "careers.job1.desc": "海外のお客様への不動産相談対応、物件の現地調査、売買及び賃貸仲介業務の調整を担当していただきます。実務能力の育成を重視し、宅地建物取引業務の充実した研修体制を整えています。",
+    "careers.quote": "「私たちが大切にしているのは、お客様の立場に立った誠実さと専門性です。一人ひとりが、お客様の資産価値を守る重要な役割を担っています。」",
+    "careers.quote_author": "黄経祐",
+    "careers.quote_dept": "代表取締役",
+    "careers.join.title": "私たちと一緒に働きませんか",
+    "careers.join.desc": "履歴書と自己紹介をお送りください。日本の不動産業界でのキャリアをここから始めましょう。",
+    "careers.join.btn": "応募メールを送る",
+
+    // Contact Page (COMPANY INFORMATION 唯一依據)
+    "contact.title": "Yellow House - お問い合わせ | 株式会社イエローハウスカンパニー",
+    "contact.banner.tag": "CONTACT US",
+    "contact.banner.h1": "お問い合わせ",
+    "contact.banner.desc": "日本に根差した不動産実務パートナーです。高級レジデンスの購入、収益不動産への投資、賃貸管理、注文建築、宿泊施設運営など、どのようなご相談でもお気軽にお問い合わせください。",
+    "contact.form.company": "会社名／組織名（任意）",
+    "contact.form.name": "お名前",
+    "contact.form.email": "メールアドレス",
+    "contact.form.phone": "電話番号（任意）",
+    "contact.form.type": "ご相談内容",
+    "contact.form.type_placeholder": "事業内容を選択してください",
+    "contact.form.type_res": "01 不動産売買仲介（居住用／自己居住）",
+    "contact.form.type_com": "01 不動産売買仲介（商業用／収益型）",
+    "contact.form.type_mgmt": "02 賃貸及び物件管理",
+    "contact.form.type_resale": "03 不動産買取再販",
+    "contact.form.type_dev": "04 土地開発及び注文建築",
+    "contact.form.type_hospitality": "05 宿泊施設運営",
+    "contact.form.type_other": "その他のご相談",
+    "contact.form.message": "ご相談内容・ご要望",
+    "contact.form.submit": "送信する",
+    "contact.form.submitting": "送信中...",
+    "contact.form.success": "お問い合わせを受け付けました。担当者より順次ご連絡いたします。",
+
+    "contact.info.company_name_label": "会社名",
+    "contact.info.company_name_val": "株式会社イエローハウスカンパニー\n（YELLOW HOUSE COMPANY）",
+    "contact.info.rep_label": "代表者",
+    "contact.info.rep_val": "黄経祐（代表取締役）",
+    "contact.info.hq_label": "所在地",
+    "contact.info.hq_val": "〒259-1132\n神奈川県伊勢原市桜台1-22-15\nネオハイツ伊勢原112",
+    "contact.info.license_label": "免許番号",
+    "contact.info.license_val": "神奈川県知事（1）第32070号",
+    "contact.info.scope_label": "主要事業",
+    "contact.info.scope_val": "不動産売買仲介、賃貸管理、買取再販、土地開発、注文建築、宿泊施設運営",
+    "contact.info.contact_label": "メールアドレス",
+    "contact.info.contact_val": "contact@yellowhouse.jp",
+    "contact.info.hours_label": "営業時間",
+    "contact.info.hours_val": "月曜〜金曜 09:00〜18:00（日本時間）\n土日・日本の祝日はオンライン相談のご予約が可能です",
+    "contact.quote": "「取得、保有、管理、開発、運営から売却まで、実務経験に基づきお客様の的確な判断をサポートします。」",
+
+    // Currency
+    "currency.label": "通貨",
+    "currency.updated": "為替レート更新日時",
+    "currency.updated_cached": "為替レート更新日時（オフラインキャッシュ）",
+    "currency.unavailable": "為替レートを取得できないため、日本円のみ表示しています",
+    "currency.approx": "約",
+    "currency.disclaimer": "外貨表示額は直近取得可能な為替レートに基づく参考値であり、実際の金額は為替変動により異なる場合があります。",
+    "price.label": "物件価格"
   }
 };
 
+export const SUPPORTED_LANGS: Language[] = ["zh", "en", "jp"];
+export const DEFAULT_LANG: Language = "zh";
+
+// URL locale code -> standard BCP-47 code for the <html lang> attribute /
+// hreflang tags. The site's Japanese *route* segment is "jp" (per product
+// requirement), but the correct language code everywhere else is "ja".
+export const HTML_LANG: Record<Language, string> = { zh: "zh-TW", en: "en", jp: "ja" };
+
+function isSupportedLang(value: string | undefined): value is Language {
+  return !!value && (SUPPORTED_LANGS as string[]).includes(value);
+}
+
 const LanguageContext = createContext<LanguageContextType>({
-  lang: "zh",
+  lang: DEFAULT_LANG,
   setLang: () => {},
-  t: (key: string) => key
+  t: (key: string) => key,
+  localePath: (path: string) => path,
+  htmlLang: HTML_LANG[DEFAULT_LANG],
 });
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lang, setLangState] = useState<Language>(() => {
-    const saved = localStorage.getItem("yh_language");
-    return saved === "en" ? "en" : "zh";
-  });
+  const [location, navigate] = useLocation();
+  const segments = location.split("/").filter(Boolean);
+  const urlLocale = segments[0];
+  const locale = isSupportedLang(urlLocale) ? urlLocale : null;
+
+  // Bare or unrecognized-locale paths get redirected to a locale-prefixed
+  // URL — using the visitor's last-chosen language when we know it, so the
+  // language switch and this fallback stay consistent.
+  useEffect(() => {
+    if (locale) return;
+    let preferred: Language = DEFAULT_LANG;
+    try {
+      const saved = localStorage.getItem("yh_language");
+      if (isSupportedLang(saved ?? undefined)) preferred = saved as Language;
+    } catch {
+      // ignore
+    }
+    const rest = segments.join("/");
+    navigate(`/${preferred}${rest ? "/" + rest : ""}`, { replace: true });
+  }, [location, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const lang: Language = locale ?? DEFAULT_LANG;
+
+  useEffect(() => {
+    document.documentElement.lang = HTML_LANG[lang];
+  }, [lang]);
+
+  useEffect(() => {
+    if (locale) {
+      try {
+        localStorage.setItem("yh_language", locale);
+      } catch {
+        // ignore
+      }
+    }
+  }, [locale]);
 
   const setLang = (newLang: Language) => {
-    setLangState(newLang);
-    localStorage.setItem("yh_language", newLang);
+    const rest = segments.slice(locale ? 1 : 0).join("/");
+    try {
+      localStorage.setItem("yh_language", newLang);
+    } catch {
+      // ignore
+    }
+    navigate(`/${newLang}${rest ? "/" + rest : ""}`);
+  };
+
+  const localePath = (path: string) => {
+    const clean = path === "/" ? "" : path;
+    return `/${lang}${clean}`;
   };
 
   const t = (key: string): string => {
-    return translations[lang][key] || translations["zh"][key] || key;
+    const value = translations[lang]?.[key] ?? translations.en[key] ?? translations.zh[key];
+    if (value === undefined) return key;
+    if (import.meta.env.DEV && lang !== "zh" && translations[lang]?.[key] === undefined) {
+      // eslint-disable-next-line no-console
+      console.warn(`[i18n] Missing "${lang}" translation for key: ${key}`);
+    }
+    return value;
   };
 
+  // While redirecting a bare/invalid-locale URL, render nothing to avoid a
+  // flash of content under the wrong (or no) locale.
+  if (!locale) return null;
+
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t }}>
+    <LanguageContext.Provider value={{ lang, setLang, t, localePath, htmlLang: HTML_LANG[lang] }}>
       {children}
     </LanguageContext.Provider>
   );

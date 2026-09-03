@@ -4,27 +4,28 @@ import { useLanguage } from "../lib/LanguageContext";
 import { motion } from "motion/react";
 import { CASES_DATA } from "../data/casesData";
 import { ArrowChip } from "../components/ArrowChip";
-import { CurrencySelector } from "../components/CurrencySelector";
 import { PriceBlock } from "../components/PriceBlock";
+import { pickLang } from "../lib/utils";
 
 export function Cases() {
-  const { t, lang } = useLanguage();
+  const { t, lang, localePath } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("ALL");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 9;
 
   useEffect(() => {
-    document.title = lang === "zh" ? "Yellow House - 實績案例" : "Yellow House - Case Studies";
+    document.title =
+      lang === "zh" ? "Yellow House - 實績案例" : lang === "jp" ? "Yellow House - 実績紹介" : "Yellow House - Case Studies";
   }, [lang]);
 
   // Categories list
   const categories = [
-    { key: "ALL", labelZh: "全部案例", labelEn: "All Cases" },
-    { key: "RESIDENTIAL", labelZh: "住宅不動產", labelEn: "Residential" },
-    { key: "COMMERCIAL", labelZh: "商業與收益型", labelEn: "Commercial" },
-    { key: "DEVELOPMENT", labelZh: "土地開發與自建", labelEn: "Development" },
-    { key: "RENOVATION", labelZh: "收購再販與翻新", labelEn: "Renovation & Resale" },
-    { key: "HOSPITALITY", labelZh: "住宿設施營運", labelEn: "Hospitality" },
+    { key: "ALL", labelZh: "全部案例", labelEn: "All Cases", labelJp: "すべての実績" },
+    { key: "RESIDENTIAL", labelZh: "住宅不動產", labelEn: "Residential", labelJp: "住宅用不動産" },
+    { key: "COMMERCIAL", labelZh: "商業與收益型", labelEn: "Commercial", labelJp: "商業・収益不動産" },
+    { key: "DEVELOPMENT", labelZh: "土地開發與自建", labelEn: "Development", labelJp: "土地開発・注文建築" },
+    { key: "RENOVATION", labelZh: "收購再販與翻新", labelEn: "Renovation & Resale", labelJp: "買取再販・リノベーション" },
+    { key: "HOSPITALITY", labelZh: "住宿設施營運", labelEn: "Hospitality", labelJp: "宿泊施設運営" },
   ];
 
   // Category change handler (resets page)
@@ -86,68 +87,28 @@ export function Cases() {
         </div>
       </section>
 
-      {/* FEATURED CASE — asymmetric image + brand-dark text panel */}
-      <section className="w-full bg-primary text-white overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-12 items-stretch">
-          <div className="md:col-span-7 h-[280px] md:h-[520px] relative overflow-hidden group order-1">
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-              style={{ backgroundImage: `url('${CASES_DATA[0].image}')` }}
-            ></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/40 md:hidden"></div>
-          </div>
-          <div className="md:col-span-5 flex flex-col justify-center gap-5 p-8 md:p-14 order-2">
-            <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest flex items-center gap-2">
-              <span className="w-6 h-[2px] bg-[#FFA601] inline-block"></span>
-              {lang === "zh" ? "焦點案例" : "FEATURED CASE"}
-            </span>
-            <h2 className="font-headline-lg text-white leading-tight">
-              {lang === "zh" ? CASES_DATA[0].titleZh : CASES_DATA[0].titleEn}
-            </h2>
-            <p className="font-body-md text-white/75 leading-relaxed">
-              {lang === "zh" ? CASES_DATA[0].descZh : CASES_DATA[0].descEn}
-            </p>
-            <Link
-              href={`/cases/${CASES_DATA[0].slug}`}
-              className="group mt-2 self-start rounded-lg border border-white/40 px-6 py-3 font-label-caps text-xs uppercase tracking-wider text-white hover:bg-white hover:text-primary transition-colors flex items-center gap-3"
-            >
-              {lang === "zh" ? "查看專案詳情" : "VIEW CASE DETAILS"}
-              <ArrowChip className="w-6 h-6" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* FILTER BUTTONS & CASES GRID */}
       <section id="cases-grid" className="w-full py-16 md:py-24 px-margin-mobile md:px-margin-desktop bg-surface scroll-mt-20">
         <div className="flex flex-col gap-12">
-          {/* CATEGORY BUTTONS + CURRENCY SELECTOR */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div className="flex flex-wrap gap-2 md:gap-3 items-center justify-center md:justify-start">
-              {categories.map((cat) => {
-                const label = lang === "zh" ? cat.labelZh : cat.labelEn;
-                const isActive = activeCategory === cat.key;
-                return (
-                  <button
-                    key={cat.key}
-                    onClick={() => handleCategoryChange(cat.key)}
-                    className={`rounded-md px-4 py-2 text-xs font-label-caps tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-                      isActive
-                        ? "bg-primary text-white shadow-sm"
-                        : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-primary border border-outline-variant"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
-            </div>
-            <div className="flex items-center justify-center md:justify-end gap-3">
-              <span className="font-label-caps text-xs text-on-surface-variant uppercase tracking-widest">
-                {t("currency.label")}
-              </span>
-              <CurrencySelector />
-            </div>
+          {/* CATEGORY BUTTONS */}
+          <div className="flex flex-wrap gap-2 md:gap-3 items-center justify-center">
+            {categories.map((cat) => {
+              const label = pickLang(lang, cat.labelZh, cat.labelEn, cat.labelJp);
+              const isActive = activeCategory === cat.key;
+              return (
+                <button
+                  key={cat.key}
+                  onClick={() => handleCategoryChange(cat.key)}
+                  className={`rounded-md px-4 py-2 text-xs font-label-caps tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? "bg-primary text-white shadow-sm"
+                      : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-primary border border-outline-variant"
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
 
           {/* CASES 3-COLUMN GRID */}
@@ -162,10 +123,10 @@ export function Cases() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {currentCases.map((item) => {
-              const title = lang === "zh" ? item.titleZh : item.titleEn;
-              const desc = lang === "zh" ? item.descZh : item.descEn;
-              const category = lang === "zh" ? item.categoryZh : item.categoryEn;
-              const location = lang === "zh" ? item.locationZh : item.locationEn;
+              const title = pickLang(lang, item.titleZh, item.titleEn, item.titleJp);
+              const desc = pickLang(lang, item.descZh, item.descEn, item.descJp);
+              const category = pickLang(lang, item.categoryZh, item.categoryEn, item.categoryJp);
+              const location = pickLang(lang, item.locationZh, item.locationEn, item.locationJp);
 
               return (
                 <motion.div
@@ -176,7 +137,7 @@ export function Cases() {
                   }}
                 >
                   <Link
-                    href={`/cases/${item.slug}`}
+                    href={localePath(`/cases/${item.slug}`)}
                     className="rounded-xl flex flex-col h-full bg-surface-container-lowest border border-outline-variant hover:border-[#FFA601] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group overflow-hidden"
                   >
                     {/* Featured Image */}
@@ -214,7 +175,7 @@ export function Cases() {
 
                       {/* Read More link */}
                       <div className="pt-4 border-t border-outline-variant flex items-center justify-between text-xs font-label-caps text-primary group-hover:text-[#FFA601] uppercase tracking-wider">
-                        <span>{lang === "zh" ? "查看專案詳情" : "VIEW CASE DETAILS"}</span>
+                        <span>{pickLang(lang, "查看專案詳情", "VIEW CASE DETAILS", "詳細を見る")}</span>
                         <ArrowChip className="w-6 h-6" />
                       </div>
                     </div>
@@ -238,7 +199,7 @@ export function Cases() {
                 }`}
               >
                 <span className="material-symbols-outlined text-sm">chevron_left</span>
-                <span>{lang === "zh" ? "上一頁" : "Previous"}</span>
+                <span>{pickLang(lang, "上一頁", "Previous", "前へ")}</span>
               </button>
 
               {/* Page numbers */}
@@ -266,7 +227,7 @@ export function Cases() {
                     : "border-outline-variant text-primary hover:border-[#FFA601] hover:text-[#FFA601] cursor-pointer"
                 }`}
               >
-                <span>{lang === "zh" ? "下一頁" : "Next"}</span>
+                <span>{pickLang(lang, "下一頁", "Next", "次へ")}</span>
                 <span className="material-symbols-outlined text-sm">chevron_right</span>
               </button>
             </div>
@@ -280,7 +241,7 @@ export function Cases() {
           {t("cases.cta.title")}
         </h2>
         <Link
-          href="/contact"
+          href={localePath("/contact")}
           className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cases.cta.btn")}</span>

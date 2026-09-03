@@ -6,12 +6,15 @@ import { ArrowChip } from "../components/ArrowChip";
 import { SectionWatermark } from "../components/SectionWatermark";
 
 export function Home() {
-  const { t, lang } = useLanguage();
+  const { t, lang, localePath } = useLanguage();
 
   useEffect(() => {
-    document.title = lang === "zh" 
-      ? "Yellow House - 日本在地的實務不動產夥伴 | 株式会社イエローハウスカンパニー" 
-      : "Yellow House - Your Practical Real Estate Partner in Japan | Yellow House Company Inc.";
+    document.title =
+      lang === "zh"
+        ? "Yellow House - 日本在地的實務不動產夥伴 | 株式会社イエローハウスカンパニー"
+        : lang === "jp"
+        ? "Yellow House - 日本の不動産を実務目線でサポート | 株式会社イエローハウスカンパニー"
+        : "Yellow House - Your Practical Real Estate Partner in Japan | Yellow House Company Inc.";
   }, [lang]);
 
   return (
@@ -22,7 +25,11 @@ export function Home() {
           <div className="flex items-center gap-3">
             <span className="w-8 h-[2px] bg-[#FFA601]"></span>
             <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest">
-              {lang === "zh" ? "日本正式宅建業執照 ｜ 實務顧問" : "LICENSED REAL ESTATE BROKERAGE IN JAPAN"}
+              {lang === "zh"
+                ? "日本正式宅建業執照 ｜ 實務顧問"
+                : lang === "jp"
+                ? "正式な宅地建物取引業免許 ｜ 実務アドバイザー"
+                : "LICENSED REAL ESTATE BROKERAGE IN JAPAN"}
             </span>
           </div>
           <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight">
@@ -32,10 +39,10 @@ export function Home() {
             {t("home.hero.desc")}
           </p>
           <div className="flex flex-wrap items-center gap-4 pt-4">
-            <Link href="/contact" className="rounded-lg border border-primary px-8 py-4 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">
+            <Link href={localePath("/contact")} className="rounded-lg border border-primary px-8 py-4 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">
               {t("home.hero.consult")}
             </Link>
-            <Link href="/services" className="group border border-transparent px-8 py-4 font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest flex items-center gap-3">
+            <Link href={localePath("/services")} className="group border border-transparent px-8 py-4 font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest flex items-center gap-3">
               {t("home.hero.view_properties")}
               <ArrowChip />
             </Link>
@@ -150,7 +157,7 @@ export function Home() {
                   </li>
                 </ul>
               </div>
-              <Link href="/services" className="font-label-caps text-xs text-primary hover:text-[#FFA601] uppercase tracking-wider flex items-center gap-2 mt-4 group">
+              <Link href={localePath("/services")} className="font-label-caps text-xs text-primary hover:text-[#FFA601] uppercase tracking-wider flex items-center gap-2 mt-4 group">
                 {lang === "zh" ? "查看服務說明" : "LEARN MORE"} <ArrowChip className="w-6 h-6" />
               </Link>
             </motion.div>
@@ -175,7 +182,7 @@ export function Home() {
                   : "From acquisition, holding, management, development, and operations to resale, empowering you with deep practical insights."}
               </p>
             </div>
-            <Link href="/contact" className="rounded-lg px-6 py-3 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold hover:bg-white transition-colors self-start uppercase tracking-wider">
+            <Link href={localePath("/contact")} className="rounded-lg px-6 py-3 bg-[#FFA601] text-primary font-label-caps text-xs font-semibold hover:bg-white transition-colors self-start uppercase tracking-wider">
               {t("cta.button")}
             </Link>
           </motion.div>
@@ -258,7 +265,7 @@ export function Home() {
             <p className="font-body-md text-body-md text-on-surface-variant max-w-lg leading-relaxed">
               {t("home.advisor.desc")}
             </p>
-            <Link href="/company" className="rounded-lg border border-primary px-8 py-3 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors self-start uppercase tracking-widest mt-2">
+            <Link href={localePath("/company")} className="rounded-lg border border-primary px-8 py-3 font-label-caps text-label-caps text-primary hover:bg-primary hover:text-on-primary transition-colors self-start uppercase tracking-widest mt-2">
               {t("home.advisor.cta")}
             </Link>
           </div>
@@ -328,7 +335,7 @@ export function Home() {
           viewport={{ once: true }}
           className="mt-16 flex justify-center"
         >
-          <Link href="/services" className="font-label-caps text-label-caps text-primary flex items-center gap-3 uppercase hover:text-[#FFA601] transition-colors border-b border-primary pb-1 group">
+          <Link href={localePath("/services")} className="font-label-caps text-label-caps text-primary flex items-center gap-3 uppercase hover:text-[#FFA601] transition-colors border-b border-primary pb-1 group">
             {t("home.process.cta")} <ArrowChip className="w-6 h-6" />
           </Link>
         </motion.div>
@@ -339,7 +346,7 @@ export function Home() {
         <h2 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary">
           {t("cta.title")}
         </h2>
-        <Link href="/contact" className="rounded-lg bg-primary text-on-primary px-10 py-5 font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-tint transition-colors">
+        <Link href={localePath("/contact")} className="rounded-lg bg-primary text-on-primary px-10 py-5 font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-tint transition-colors">
           {t("cta.button")}
         </Link>
       </section>

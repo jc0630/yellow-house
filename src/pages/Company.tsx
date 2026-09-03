@@ -3,14 +3,18 @@ import { Link } from "wouter";
 import { useLanguage } from "../lib/LanguageContext";
 import { motion } from "motion/react";
 import { ArrowChip } from "../components/ArrowChip";
+import { pickLang } from "../lib/utils";
 
 export function Company() {
-  const { t, lang } = useLanguage();
+  const { t, lang, localePath } = useLanguage();
 
   useEffect(() => {
-    document.title = lang === "zh" 
-      ? "Yellow House - 公司簡介 | 株式会社イエローハウスカンパニー" 
-      : "Yellow House - Company Profile | Yellow House Company Inc.";
+    document.title = pickLang(
+      lang,
+      "Yellow House - 公司簡介 | 株式会社イエローハウスカンパニー",
+      "Yellow House - Company Profile | Yellow House Company Inc.",
+      "Yellow House - 会社案内 | 株式会社イエローハウスカンパニー"
+    );
   }, [lang]);
 
   return (
@@ -43,7 +47,7 @@ export function Company() {
           <div className="md:col-span-4 flex justify-start md:justify-end mt-4 md:mt-0">
             <div className="flex flex-col gap-2 items-start md:items-end border-l border-white/30 md:border-l-0 md:border-r border-r-white/30 pl-4 md:pl-0 md:pr-4">
               <span className="font-label-caps text-label-caps text-white/75 uppercase tracking-widest">
-                {lang === "zh" ? "實務經驗 15 年" : "15 YEARS TRACK RECORD"}
+                {pickLang(lang, "實務經驗 15 年", "15 YEARS TRACK RECORD", "実務経験15年")}
               </span>
               <span className="font-label-caps text-label-caps text-[#FFA601] uppercase tracking-widest font-semibold">KANAGAWA, JAPAN</span>
             </div>
@@ -81,7 +85,12 @@ export function Company() {
             </div>
             <div className="pt-2">
               <span className="font-label-caps text-sm text-primary font-semibold tracking-wider">
-                {lang === "zh" ? "黃經祐 ｜ 代表人・房東・不動產投資人" : "Kei-Yu Huang ｜ Representative Director ・ Landlord ・ Investor"}
+                {pickLang(
+                  lang,
+                  "黃經祐 ｜ 代表人・房東・不動產投資人",
+                  "Kei-Yu Huang ｜ Representative Director ・ Landlord ・ Investor",
+                  "黄経祐 ｜ 代表・オーナー・不動産投資家"
+                )}
               </span>
             </div>
           </div>
@@ -198,7 +207,7 @@ export function Company() {
               </div>
             </div>
             <Link
-              href="/contact"
+              href={localePath("/contact")}
               className="rounded-lg self-start mt-4 px-8 py-4 border border-primary text-primary font-label-caps text-label-caps hover:bg-primary hover:text-white transition-colors duration-300 flex items-center gap-2 group uppercase"
             >
               <span>{t("cta.button")}</span>
@@ -226,7 +235,7 @@ export function Company() {
         <h2 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary relative z-10 leading-tight">
           {t("cta.title")}
         </h2>
-        <Link href="/contact" className="rounded-lg relative z-10 px-10 py-5 bg-primary text-white font-label-caps text-label-caps hover:bg-primary/90 transition-colors duration-300 flex items-center gap-3 group uppercase">
+        <Link href={localePath("/contact")} className="rounded-lg relative z-10 px-10 py-5 bg-primary text-white font-label-caps text-label-caps hover:bg-primary/90 transition-colors duration-300 flex items-center gap-3 group uppercase">
           <span>{t("cta.button")}</span>
           <ArrowChip className="w-6 h-6" />
         </Link>

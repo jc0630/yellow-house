@@ -4,10 +4,11 @@ import { motion } from "motion/react";
 import { useLanguage } from "../lib/LanguageContext";
 import { NEWS_DATA } from "../data/newsData";
 import { ArrowChip } from "../components/ArrowChip";
+import { pickLang } from "../lib/utils";
 
 export function NewsDetail() {
-  const [, params] = useRoute<{ slug: string }>("/news/:slug");
-  const { lang, t } = useLanguage();
+  const [, params] = useRoute<{ slug: string }>("/:locale/news/:slug");
+  const { lang, t, localePath } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   const slug = params?.slug;
@@ -15,13 +16,13 @@ export function NewsDetail() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    const title = lang === "zh" ? item.titleZh : item.titleEn;
+    const title = pickLang(lang, item.titleZh, item.titleEn, item.titleJp);
     document.title = `${title} | Yellow House`;
   }, [slug, lang, item]);
 
   const handleShare = async () => {
     const shareUrl = window.location.href;
-    const shareTitle = lang === "zh" ? item.titleZh : item.titleEn;
+    const shareTitle = pickLang(lang, item.titleZh, item.titleEn, item.titleJp);
 
     if (navigator.share) {
       try {
@@ -44,10 +45,10 @@ export function NewsDetail() {
     }
   };
 
-  const title = lang === "zh" ? item.titleZh : item.titleEn;
-  const category = lang === "zh" ? item.categoryZh : item.categoryEn;
-  const readTime = lang === "zh" ? item.readTimeZh : item.readTimeEn;
-  const content = lang === "zh" ? item.contentZh : item.contentEn;
+  const title = pickLang(lang, item.titleZh, item.titleEn, item.titleJp);
+  const category = pickLang(lang, item.categoryZh, item.categoryEn, item.categoryJp);
+  const readTime = pickLang(lang, item.readTimeZh, item.readTimeEn, item.readTimeJp);
+  const content = pickLang(lang, item.contentZh, item.contentEn, item.contentJp);
 
   return (
     <div className="flex flex-col w-full relative">
@@ -93,11 +94,11 @@ export function NewsDetail() {
           {/* Breadcrumb / Top Back */}
           <div className="mb-10 pb-6 border-b border-outline-variant flex items-center justify-between">
             <Link
-              href="/news"
+              href={localePath("/news")}
               className="font-label-caps text-xs text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2 uppercase tracking-wider group"
             >
               <span className="material-symbols-outlined text-sm transform group-hover:-translate-x-1 transition-transform">arrow_back</span>
-              {lang === "zh" ? "返回最新消息" : "Back to News"}
+              {pickLang(lang, "返回最新消息", "Back to News", "ニュース一覧に戻る")}
             </Link>
 
             <button
@@ -105,7 +106,7 @@ export function NewsDetail() {
               className="rounded-md px-4 py-2 border border-outline-variant hover:border-[#FFA601] bg-surface-container-lowest font-label-caps text-xs text-primary flex items-center gap-2 uppercase tracking-wider transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-sm text-[#FFA601]">share</span>
-              <span>{copied ? (lang === "zh" ? "已複製連結！" : "Link Copied!") : (lang === "zh" ? "分享文章" : "Share")}</span>
+              <span>{copied ? pickLang(lang, "已複製連結！", "Link Copied!", "リンクをコピーしました！") : pickLang(lang, "分享文章", "Share", "シェア")}</span>
             </button>
           </div>
 
@@ -147,7 +148,7 @@ export function NewsDetail() {
             {/* Summary Box */}
             <div className="rounded-xl p-8 bg-brand-tint border border-outline-variant mt-4">
               <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest block mb-2">
-                {lang === "zh" ? "總結觀點" : "EXECUTIVE SUMMARY"}
+                {pickLang(lang, "總結觀點", "EXECUTIVE SUMMARY", "総括")}
               </span>
               <p className="font-body-md text-primary text-base md:text-lg leading-relaxed font-medium">
                 {content.summary}
@@ -157,11 +158,11 @@ export function NewsDetail() {
             {/* Bottom Actions: Share + Back */}
             <div className="pt-8 border-t border-outline-variant flex flex-col sm:flex-row items-center justify-between gap-4">
               <Link
-                href="/news"
+                href={localePath("/news")}
                 className="rounded-lg w-full sm:w-auto px-8 py-4 bg-primary text-white hover:bg-primary/90 font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
               >
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
-                <span>{lang === "zh" ? "返回最新消息" : "Back to All News"}</span>
+                <span>{pickLang(lang, "返回最新消息", "Back to All News", "すべてのニュースに戻る")}</span>
               </Link>
 
               <button
@@ -169,7 +170,7 @@ export function NewsDetail() {
                 className="rounded-lg w-full sm:w-auto px-8 py-4 border border-primary text-primary hover:bg-primary hover:text-white font-label-caps text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-sm">share</span>
-                <span>{copied ? (lang === "zh" ? "已複製連結！" : "Link Copied!") : (lang === "zh" ? "分享此文章" : "Share Article")}</span>
+                <span>{copied ? pickLang(lang, "已複製連結！", "Link Copied!", "リンクをコピーしました！") : pickLang(lang, "分享此文章", "Share Article", "この記事をシェア")}</span>
               </button>
             </div>
           </motion.div>
@@ -182,7 +183,7 @@ export function NewsDetail() {
           {t("cta.title")}
         </h2>
         <Link
-          href="/contact"
+          href={localePath("/contact")}
           className="rounded-lg group px-8 py-4 bg-primary text-white font-label-caps text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-3"
         >
           <span>{t("cta.button")}</span>

@@ -1,12 +1,14 @@
 import { Link, useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import { useLanguage } from "../lib/LanguageContext";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { CurrencySelector } from "./CurrencySelector";
 
 export function Header() {
   const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { lang, setLang, t } = useLanguage();
+  const { t, localePath } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,13 +36,13 @@ export function Header() {
   };
 
   const navLinks = [
-    { href: "/", label: t("nav.home") },
-    { href: "/services", label: t("nav.services") },
-    { href: "/company", label: t("nav.company") },
-    { href: "/cases", label: t("nav.cases") },
-    { href: "/news", label: t("nav.news") },
-    { href: "/careers", label: t("nav.careers") },
-    { href: "/contact", label: t("nav.contact") },
+    { href: localePath("/"), label: t("nav.home") },
+    { href: localePath("/services"), label: t("nav.services") },
+    { href: localePath("/company"), label: t("nav.company") },
+    { href: localePath("/cases"), label: t("nav.cases") },
+    { href: localePath("/news"), label: t("nav.news") },
+    { href: localePath("/careers"), label: t("nav.careers") },
+    { href: localePath("/contact"), label: t("nav.contact") },
   ];
 
   return (
@@ -53,7 +55,7 @@ export function Header() {
       }`}
     >
       <div className="h-20 w-full px-margin-mobile md:px-margin-desktop flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 cursor-pointer group">
+        <Link href={localePath("/")} className="flex items-center gap-3 cursor-pointer group">
           <img
             alt="Yellow House"
             className="h-10 sm:h-11 w-auto max-w-[140px] sm:max-w-[180px] object-contain transition-transform group-hover:scale-105"
@@ -71,31 +73,13 @@ export function Header() {
         </nav>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-4 md:gap-6">
-          {/* Language Switcher */}
-          <div className="flex items-center bg-white/10 rounded-full px-3 py-1 gap-2 border border-white/20">
-            <button
-              onClick={() => setLang("en")}
-              className={`text-label-caps transition-all ${
-                lang === "en" ? "text-white font-bold" : "text-white/60 hover:text-white"
-              }`}
-              aria-label="Switch to English"
-            >
-              EN
-            </button>
-            <span className="w-[1px] h-3 bg-white/30"></span>
-            <button
-              onClick={() => setLang("zh")}
-              className={`text-label-caps transition-all ${
-                lang === "zh" ? "text-white font-bold" : "text-white/60 hover:text-white"
-              }`}
-              aria-label="切換為中文"
-            >
-              中文
-            </button>
-          </div>
+        <div className="flex items-center gap-1 md:gap-2">
+          {/* Language + Currency (separate, low visual weight) */}
+          <LanguageSwitcher />
+          <span className="w-[1px] h-4 bg-white/15 hidden sm:block"></span>
+          <CurrencySelector />
 
-          <Link href="/company" className="p-1 border border-white/20 rounded-full hover:border-[#FFA601] transition-colors hidden sm:block" title="Company Profile">
+          <Link href={localePath("/company")} className="ml-2 p-1 border border-white/20 rounded-full hover:border-[#FFA601] transition-colors hidden sm:block" title="Company Profile">
             <img
               alt="Profile"
               className="w-8 h-8 rounded-full object-cover"
@@ -134,26 +118,14 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-            <span className="text-white/60 text-xs font-label-caps">LANGUAGE</span>
-            <div className="flex items-center bg-white/10 rounded-full px-3 py-1 gap-2 border border-white/20">
-              <button
-                onClick={() => setLang("en")}
-                className={`text-label-caps ${
-                  lang === "en" ? "text-white font-bold" : "text-white/60"
-                }`}
-              >
-                EN
-              </button>
-              <span className="w-[1px] h-3 bg-white/30"></span>
-              <button
-                onClick={() => setLang("zh")}
-                className={`text-label-caps ${
-                  lang === "zh" ? "text-white font-bold" : "text-white/60"
-                }`}
-              >
-                中文
-              </button>
+          <div className="pt-4 border-t border-white/10 flex items-center gap-6">
+            <div className="flex flex-col gap-1">
+              <span className="text-white/50 text-[11px] font-label-caps uppercase tracking-widest">Language</span>
+              <LanguageSwitcher className="-ml-2" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-white/50 text-[11px] font-label-caps uppercase tracking-widest">Currency</span>
+              <CurrencySelector className="-ml-2" />
             </div>
           </div>
         </div>

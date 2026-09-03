@@ -1,6 +1,5 @@
 import { useLanguage } from "../lib/LanguageContext";
 import { useCurrency } from "../lib/CurrencyContext";
-import { CurrencySelector } from "./CurrencySelector";
 
 interface PriceBlockProps {
   priceJPY: number;
@@ -10,17 +9,17 @@ interface PriceBlockProps {
 
 export function PriceBlock({ priceJPY, variant = "compact", className = "" }: PriceBlockProps) {
   const { t } = useLanguage();
-  const { currency, convertJPYtoUSD, formatJPY, formatUSD, rateStatus, rateUpdatedAt } = useCurrency();
+  const { currency, convertFromJPY, formatAmount, rateStatus, rateUpdatedAt } = useCurrency();
 
-  const usdValue = convertJPYtoUSD(priceJPY);
-  const showUSD = currency === "USD" && usdValue != null;
+  // Convert when possible; otherwise fall back to the JPY base price rather than
+  // showing a broken/blank conversion (never NaN/undefined/0).
+  const converted = currency === "JPY" ? priceJPY : convertFromJPY(priceJPY);
+  const displayCurrency = converted != null ? currency : "JPY";
+  const displayValue = converted != null ? converted : priceJPY;
 
-  const primaryText = showUSD ? formatUSD(usdValue as number) : formatJPY(priceJPY);
-  const secondaryText = showUSD
-    ? formatJPY(priceJPY)
-    : usdValue != null
-    ? formatUSD(usdValue)
-    : null;
+  const primaryText = formatAmount(displayValue, displayCurrency);
+  const secondaryText =
+    converted != null && displayCurrency !== "JPY" ? formatAmount(priceJPY, "JPY") : null;
 
   if (variant === "compact") {
     return (
@@ -37,12 +36,9 @@ export function PriceBlock({ priceJPY, variant = "compact", className = "" }: Pr
 
   return (
     <div className={`rounded-xl border border-outline-variant bg-surface-container-lowest p-6 md:p-8 flex flex-col gap-4 ${className}`}>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest">
-          {t("price.label")}
-        </span>
-        <CurrencySelector />
-      </div>
+      <span className="font-label-caps text-xs text-[#FFA601] uppercase tracking-widest">
+        {t("price.label")}
+      </span>
 
       <div className="flex flex-col gap-1">
         <span className="font-headline-lg text-2xl md:text-3xl text-primary font-medium">{primaryText}</span>
@@ -53,19 +49,26 @@ export function PriceBlock({ priceJPY, variant = "compact", className = "" }: Pr
         )}
       </div>
 
-      <p className="font-body-md text-xs text-on-surface-variant/80 leading-relaxed">
-        {t("currency.disclaimer")}
-      </p>
-
-      {rateStatus === "unavailable" ? (
-        <span className="font-label-caps text-[11px] text-on-surface-variant/70">
-          {t("currency.unavailable")}
-        </span>
-      ) : rateUpdatedAt ? (
-        <span className="font-label-caps text-[11px] text-on-surface-variant/70">
-          {rateStatus === "cached" ? t("currency.updated_cached") : t("currency.updated")}: {rateUpdatedAt}
-        </span>
-      ) : null}
+      {currency !== "JPY" && (
+        <>
+          {converted == null ? (
+            <span className="font-label-caps text-[11px] text-on-surface-variant/70">
+              {t("currency.unavailable")}
+            </span>
+          ) : (
+            <>
+              <p className="font-body-md text-xs text-on-surface-variant/80 leading-relaxed">
+                {t("currency.disclaimer")}
+              </p>
+              {rateUpdatedAt && (
+                <span className="font-label-caps text-[11px] text-on-surface-variant/70">
+                  {rateStatus === "cached" ? t("currency.updated_cached") : t("currency.updated")}: {rateUpdatedAt}
+                </span>
+              )}
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
